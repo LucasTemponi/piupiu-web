@@ -22,7 +22,7 @@ export const MainLayout = () => {
       <div className="flex px-2 flex-col w-[95vw] ws:w-[min(566px,65vw)]">
         <Outlet />
       </div>
-      <div className="ml-4 mt-12 w-72 lg:w-96 h-min rounded-md hidden ws:block">
+      <div className="ml-4 mt-12 w-72 sticky top-12 lg:w-96 h-min rounded-md hidden ws:block">
         <SideCard>
           <h1 className="text-xl font-bold mb-3">Assine o Premium</h1>
           <p className="mb-2">

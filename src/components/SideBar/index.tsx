@@ -9,7 +9,7 @@ export const SideBar = () => {
   const { signOut, user } = useAuth();
 
   return (
-    <nav className="px-2 pb-4 xl:w-64 hidden sm:flex flex-col justify-between select-none">
+    <nav className="px-2 sticky top-0 left-0 h-screen pb-4 xl:w-64 hidden sm:flex flex-col justify-between select-none">
       <div>
         <img
           className="w-16 p-2 rounded-full mb-5 hover:bg-zinc-900"
