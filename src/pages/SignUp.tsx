@@ -1,17 +1,24 @@
 import { useState } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
-import { useAuth } from "../contexts/Auth";
 import { AuthFormLayout } from "../components/AuthFormLayout";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
-  const [user, setUser] = useState("");
+export const SignUp = () => {
+  const [name, setName] = useState("");
+  const [handle, setHandle] = useState("");
   const [password, setPassword] = useState("");
-  const { signIn, signingIn } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    signIn(user, password);
+    try {
+      await axios.post("/login", { name, handle, password });
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -23,9 +30,14 @@ export const Login = () => {
         <h1 className="text-5xl font-bold mb-8">Rolando agora</h1>
         <h2 className="text-2xl font-bold mb-8">Junte-se aos bons</h2>
         <Input
+          placeholder="Nome"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Input
           placeholder="Handle"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
+          value={handle}
+          onChange={(e) => setHandle(e.target.value)}
         />
         <Input
           placeholder="Senha"
@@ -33,9 +45,7 @@ export const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button loading={signingIn} thickness="thick">
-          Login
-        </Button>
+        <Button thickness="thick">Cadastrar</Button>
       </form>
     </AuthFormLayout>
   );

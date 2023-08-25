@@ -36,8 +36,13 @@ export const SessionController = ({
         ))}
       </Popover>
 
-      <ProfilePic image={user.image_url} />
-      <Username variant="column" user={user} />
+      <ProfilePic image={user.image_url} userName={user.name} />
+      <Username
+        showVerified={false}
+        clickable={false}
+        variant="column"
+        user={user}
+      />
       <span className="text-2xl ml-auto self-start ">...</span>
     </button>
   );

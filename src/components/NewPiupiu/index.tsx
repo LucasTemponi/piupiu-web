@@ -13,6 +13,7 @@ type NewPiupiuProps = {
   onSubmit?: (e: FormEvent) => void;
   placeholder?: string;
   variant?: "new" | "reply";
+  loading?: boolean;
 };
 export const NewPiupiu = ({
   user,
@@ -21,6 +22,7 @@ export const NewPiupiu = ({
   variant = "new",
   onChange,
   onSubmit,
+  loading,
 }: NewPiupiuProps) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -49,7 +51,12 @@ export const NewPiupiu = ({
         />
         {isActive && <hr className="my-3 border-t-[1px] border-[#2f3336] " />}
         <div className="ml-auto w-28">
-          <Button disabled={!value} type="submit" variant="secondary">
+          <Button
+            loading={loading}
+            disabled={!value}
+            type="submit"
+            variant="secondary"
+          >
             Piar
           </Button>
         </div>

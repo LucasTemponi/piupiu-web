@@ -1,6 +1,6 @@
 import { User } from "../../types/Users";
 import ProfilePic from "../ProfilePic";
-import ReactionsBar, { ReactionsBarProps } from "../ReactionsBar/indes";
+import ReactionsBar, { ReactionsBarProps } from "../ReactionsBar";
 import { ReactionsTextBar } from "../ReactionsTextBar";
 import { Username } from "../Username";
 
@@ -31,9 +31,12 @@ export const CompletePiupiu = ({
       <div className="flex border-b-[1px] py-3 border-[#2f3336]">
         <ReactionsTextBar
           reactions={[
-            { title: "Comentários", total: 5 },
-            { title: "Repius", total: 10 },
-            { title: "Likes", total: 20 },
+            {
+              title: "Comentários",
+              total: reactions.reactions.comment?.total || 0,
+            },
+            { title: "Repius", total: reactions.reactions.repiu?.total || 0 },
+            { title: "Likes", total: reactions.reactions.like?.total || 0 },
           ]}
         />
       </div>

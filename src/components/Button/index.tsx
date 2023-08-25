@@ -1,9 +1,11 @@
 import { ButtonHTMLAttributes } from "react";
+import { CircularSpinner } from "../CircularSpinner";
 
 type ButtonProps = {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "boring";
   thickness?: "thin" | "medium" | "thick";
+  loading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const variantStyles: Record<Required<ButtonProps>["variant"], string> = {
@@ -21,6 +23,7 @@ export const Button = ({
   children,
   thickness = "medium",
   variant = "primary",
+  loading,
   ...props
 }: ButtonProps) => {
   return (
@@ -28,7 +31,7 @@ export const Button = ({
       {...props}
       className={`text-se bg-pri ml-auto w-full cursor-pointer disabled:cursor-auto disabled disabled:bg-zinc-700 px-6 ${thicknessStyles[thickness]} rounded-3xl ${variantStyles[variant]}`}
     >
-      {children}
+      {loading ? <CircularSpinner variant={variant} /> : children}
     </button>
   );
 };

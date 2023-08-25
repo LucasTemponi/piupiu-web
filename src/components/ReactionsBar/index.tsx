@@ -33,7 +33,11 @@ export type ReactionsBarProps = {
   reactions: Partial<
     Record<
       keyof typeof baseReactions,
-      { active?: boolean; total?: number; onClick?: () => void }
+      {
+        active?: boolean;
+        total?: number;
+        onClick?: (nextState: boolean) => void;
+      }
     >
   >;
 };

@@ -1,6 +1,6 @@
 import { User } from "../../types/Users";
 import { ProfilePic } from "../ProfilePic";
-import { ReactionsBar, ReactionsBarProps } from "../ReactionsBar/indes";
+import { ReactionsBar, ReactionsBarProps } from "../ReactionsBar";
 import { Username } from "../Username";
 
 type PiupiuProps = {
