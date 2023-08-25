@@ -28,8 +28,10 @@ export const Piupiu = ({
   onClick,
 }: PiupiuProps) => {
   const [liked, setLiked] = useState(reactions.like?.active);
+  const [likesTotal, setLikesTotal] = useState(reactions.like?.total || 0);
   const [replying, setReplying] = useState(false);
   const [replyText, setReplyText] = useState("");
+  const [replies, setReplies] = useState(reactions.comment.total || 0);
   const { user } = useAuth();
   const navigate = useNavigate();
   const replyRef = useRef<HTMLDivElement | null>(null);
@@ -37,13 +39,16 @@ export const Piupiu = ({
   const handleLike = useCallback(async () => {
     try {
       if (!liked) {
-        await axios.post(`/posts/${id}/like`);
         setLiked(true);
+        setLikesTotal(likesTotal + 1);
+        await axios.post(`/posts/${id}/like`);
       } else {
-        await axios.delete(`/posts/${id}/like`);
         setLiked(false);
+        await axios.delete(`/posts/${id}/like`);
       }
     } catch (err) {
+      setLiked(!liked);
+      setLikesTotal(likesTotal - 1);
       console.log(err);
     }
     onChange?.();
@@ -56,6 +61,7 @@ export const Piupiu = ({
       await axios.post(`/posts/${id}/reply`, {
         message: replyText,
       });
+      setReplies(replies + 1);
       setReplyText("");
     } catch (err) {
       console.log(err);
@@ -70,17 +76,24 @@ export const Piupiu = ({
   const reactionProps = useMemo(() => {
     return {
       comment: {
-        ...reactions.comment,
+        total: replies,
         active: replying,
         onClick: () => setReplying(!replying),
       },
       repiu: { ...reactions.repiu },
-      like: { ...reactions.like, active: liked, onClick: () => handleLike() },
+      like: {
+        total: likesTotal,
+        replies,
+        active: liked,
+        onClick: () => handleLike(),
+      },
     };
-  }, [reactions, liked, handleLike, replying]);
+  }, [reactions, liked, likesTotal, handleLike, replying]);
 
   useEffect(() => {
     setLiked(reactions?.like?.active);
+    setLikesTotal(reactions?.like?.total || 0);
+    setReplies(reactions?.comment.total || 0);
   }, [reactions]);
 
   useEffect(() => {
