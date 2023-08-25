@@ -3,22 +3,16 @@ import { useEffect, useState } from "react";
 import { NewPiupiu } from "../components/NewPiupiu";
 import { Piupiu } from "../components/Piupius";
 import { Piu } from "../types/Pius";
-import { MainLayout } from "../components/MainLayout";
 import NavTitle from "../components/NavTitle";
 import { useNavigate } from "react-router-dom";
-
-export const mockAuthor = {
-  handle: "LucasT",
-  name: "Lucas Temponi",
-  image_url:
-    "https://img.freepik.com/vetores-gratis/fofo-urso-de-pelucia-acenando-a-mao-dos-desenhos-animados-icone-ilustracao_138676-2714.jpg?w=2000",
-};
+import { useAuth } from "../contexts/Auth";
 
 export const Home = () => {
   const [piupius, setPiupius] = useState<Piu[]>();
   const [addingPiupiu, setAddingPiupiu] = useState(false);
   const [textValue, setTextValue] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuth();
   useEffect(() => {
     axios.get("/pius").then((res) => {
       setPiupius(res.data);
@@ -68,13 +62,15 @@ export const Home = () => {
       >
         <h2 className="text-xl font-bold px-4 py-3 ">Casa</h2>
       </NavTitle>
-      <NewPiupiu
-        loading={addingPiupiu}
-        value={textValue}
-        onChange={(e) => setTextValue(e.target.value)}
-        onSubmit={handleSubmit}
-        user={mockAuthor}
-      />
+      {user && (
+        <NewPiupiu
+          loading={addingPiupiu}
+          value={textValue}
+          onChange={(e) => setTextValue(e.target.value)}
+          onSubmit={handleSubmit}
+          user={user}
+        />
+      )}
       {piupius?.map((piupiu: Piu) => {
         return (
           <Piupiu

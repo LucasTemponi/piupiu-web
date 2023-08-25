@@ -7,7 +7,7 @@ import { User } from "../../types/Users";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
 
-export const MainLayout = ({ children }: { children?: React.ReactNode }) => {
+export const MainLayout = () => {
   const [newUsers, setNewUsers] = useState<User[]>();
 
   useEffect(() => {

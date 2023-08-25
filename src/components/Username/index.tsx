@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { User } from "../../types/Users";
 import { LuVerified } from "react-icons/lu";
 
