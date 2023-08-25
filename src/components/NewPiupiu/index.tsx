@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { ProfilePic } from "../ProfilePic";
 import { Button } from "../Button";
+import sound from "../../assets/E o pintinho piu.mp3";
 
 type NewPiupiuProps = {
   user: {
@@ -25,6 +26,7 @@ export const NewPiupiu = ({
   loading,
 }: NewPiupiuProps) => {
   const [isActive, setIsActive] = useState(false);
+  const piupiuSound = new Audio(sound);
 
   function handleTextAreaInput(event: ChangeEvent<HTMLTextAreaElement>) {
     event.target.style.height = "";
@@ -40,11 +42,17 @@ export const NewPiupiu = ({
     [placeholder, variant]
   );
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    onSubmit?.(e);
+    piupiuSound.play();
+  };
+
   return (
     <article className="flex border-[#2f3336] border-t-0 resize-none overflow-y-hidden select-none w-full h-min px-4 py-2 border-[1px] focus:outline-none ">
       <ProfilePic userName={user.name} image={user.image_url} />
       <form
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         className={`w-full  px-3 flex justify-end ${
           variant === "new" ? "flex-col" : "items-center"
         }`}
