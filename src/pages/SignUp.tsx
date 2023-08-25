@@ -9,16 +9,19 @@ export const SignUp = () => {
   const [name, setName] = useState("");
   const [handle, setHandle] = useState("");
   const [password, setPassword] = useState("");
+  const [signingUp, setSigningUp] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSigningUp(true);
     try {
-      await axios.post("/login", { name, handle, password });
+      await axios.post("/signup", { name, handle, password });
       navigate("/");
     } catch (err) {
       console.log(err);
     }
+    setSigningUp(false);
   };
 
   return (
@@ -45,7 +48,9 @@ export const SignUp = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button thickness="thick">Cadastrar</Button>
+        <Button loading={signingUp} thickness="thick">
+          Cadastrar
+        </Button>
       </form>
     </AuthFormLayout>
   );
