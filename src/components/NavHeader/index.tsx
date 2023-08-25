@@ -15,7 +15,7 @@ export const NavHeader = ({ title, subtitle }: NavHeaderProps) => {
       >
         <BiArrowBack className="text-xl cursor-pointer" />
       </div>
-      <div className="leading-none">
+      <div className="leading-none select-none">
         <h1 className={`text-xl ${!subtitle ? "my-2" : ""} font-bold`}>
           {title}
         </h1>

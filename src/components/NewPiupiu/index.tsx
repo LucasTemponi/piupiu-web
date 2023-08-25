@@ -26,7 +26,7 @@ export const NewPiupiu = ({
   loading,
 }: NewPiupiuProps) => {
   const [isActive, setIsActive] = useState(false);
-  const piupiuSound = new Audio(sound);
+  const piupiuSound = useMemo(() => new Audio(sound), []);
 
   function handleTextAreaInput(event: ChangeEvent<HTMLTextAreaElement>) {
     event.target.style.height = "";

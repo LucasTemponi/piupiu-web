@@ -4,9 +4,7 @@ type ProfilePicProps = {
   variant?: "reallyBig" | "small";
   border?: boolean;
 };
-
-const defaultProfilePic =
-  "https://cdn.vectorstock.com/i/preview-1x/66/14/default-avatar-photo-placeholder-profile-picture-vector-21806614.jpg";
+import defaultProfilePic from "../../assets/profile.jpg";
 export const ProfilePic = ({
   image,
   userName,
@@ -20,6 +18,7 @@ export const ProfilePic = ({
         variant === "small" ? "w-10 h-10" : "w-32 h-32"
       } ${border ? "border-4 border-slate-950" : ""}`}
       src={image || defaultProfilePic}
+      loading="lazy"
     />
   );
 };
