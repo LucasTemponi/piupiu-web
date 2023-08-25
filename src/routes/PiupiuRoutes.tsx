@@ -23,6 +23,7 @@ export const PiupiuRoutes = () => {
         <Route element={<RequireAuth />}>
           <Route element={<MainLayout />}>
             <Route path={routes.home} element={<Home />} />
+            <Route path={routes.following} element={<Home />} />
             <Route path={routes.singlePiupiu} element={<SinglePiupiu />} />
             <Route element={<ProfileLayout />}>
               <Route
