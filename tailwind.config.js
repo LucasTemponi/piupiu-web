@@ -21,6 +21,7 @@ module.exports = {
           'quaternary-100': '#fc0bfb',
           'quaternary-300': '#c908c8',
           'quaternary-200': '#b007af',
+          'semitransparent-dark':'rgba(0,0,0,0.65)',
         },
        boxShadow: {
         'cs': 'rgba(255, 255, 255, 0.2) 0px 0px 15px, rgba(255, 255, 255, 0.15) 0px 0px 3px 1px',

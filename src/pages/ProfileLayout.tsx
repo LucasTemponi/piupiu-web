@@ -37,6 +37,7 @@ export const ProfileLayout = () => {
         subtitle={`${userPosts || 0} piadas`}
       />
       <NavTitle
+        position="relative"
         navOptions={[
           { title: "Perfil", path: `/${user?.handle}` },
           { title: "Curtidas", path: `/${user?.handle}/likes` },

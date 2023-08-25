@@ -43,6 +43,7 @@ export const Home = () => {
   return (
     <>
       <NavTitle
+        position="sticky"
         navOptions={[
           { title: "Para você", path: "/home" },
           { title: "Seguindo", path: "/following" },

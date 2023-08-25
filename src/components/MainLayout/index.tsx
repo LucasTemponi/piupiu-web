@@ -19,7 +19,7 @@ export const MainLayout = () => {
   return (
     <>
       <SideBar />
-      <div className="flex px-2 flex-col w-[95vw] ws:w-[min(566px,65vw)]">
+      <div className="flex px-2 flex-col w-[100vw] ws:w-[min(566px,65vw)]">
         <Outlet />
       </div>
       <div className="ml-4 mt-12 w-72 sticky top-12 lg:w-96 h-min rounded-md hidden ws:block">
