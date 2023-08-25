@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { ProfilePic } from "../ProfilePic";
 import { Button } from "../Button";
 
@@ -32,6 +32,14 @@ export const NewPiupiu = ({
     onChange?.(event);
   }
 
+  const placeholderText = useMemo(
+    () =>
+      placeholder || variant === "new"
+        ? "O que tá pegando?!"
+        : "Prove que essa pessoa está errada!",
+    [placeholder, variant]
+  );
+
   return (
     <article className="flex border-[#2f3336] border-t-0 resize-none overflow-y-hidden select-none w-full h-min px-4 py-2 border-[1px] focus:outline-none ">
       <ProfilePic userName={user.name} image={user.image_url} />
@@ -45,7 +53,7 @@ export const NewPiupiu = ({
           rows={1}
           value={value}
           onClick={() => setIsActive(true)}
-          placeholder={placeholder || "O que tá pegando?!"}
+          placeholder={placeholderText}
           className="w-full text-xl resize-none overflow-y-hidden py-2.5 px-1 caret-primary bg-transparent focus:outline-none"
           onChange={handleTextAreaInput}
         />

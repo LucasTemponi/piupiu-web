@@ -91,7 +91,6 @@ export const SinglePiupiu = () => {
         />
       )}
       {replies?.map((piupiu: Piu) => {
-        console.log(piupiu);
         return (
           <Piupiu
             key={piupiu.id}

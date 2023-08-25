@@ -1,5 +1,11 @@
 import { Reaction, ReactionProps } from "../Reaction";
-import { FaRegComment, FaHeart, FaRetweet, FaRegHeart } from "react-icons/fa";
+import {
+  FaRegComment,
+  FaHeart,
+  FaRetweet,
+  FaRegHeart,
+  FaComment,
+} from "react-icons/fa";
 
 export const reactions = ["comment", "like", "repiu"] as const;
 
@@ -13,6 +19,7 @@ const baseReactions: Record<
     variant: "primary",
     icon: {
       default: <FaRegComment />,
+      active: <FaComment className="fill-primary-100" />,
     },
   },
   repiu: {
