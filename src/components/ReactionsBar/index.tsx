@@ -1,7 +1,7 @@
 import { Reaction, ReactionProps } from "../Reaction";
 import { FaRegComment, FaHeart, FaRetweet, FaRegHeart } from "react-icons/fa";
 
-const reactions = ["comment", "like", "repiu"] as const;
+export const reactions = ["comment", "like", "repiu"] as const;
 
 const baseReactions: Record<
   (typeof reactions)[number],
@@ -36,7 +36,7 @@ export type ReactionsBarProps = {
       {
         active?: boolean;
         total?: number;
-        onClick?: (nextState: boolean) => void;
+        onClick?: () => void;
       }
     >
   >;

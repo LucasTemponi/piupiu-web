@@ -12,14 +12,14 @@ export const Profile = ({ postsRoute }: ProfileProps) => {
   const [userPosts, setUserPosts] = useState<Piu[]>();
   const { handle } = useParams();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      axios.get(`users/${handle}/${postsRoute}`).then((res) => {
-        setUserPosts(res.data);
-      });
-    };
+  const fetchPosts = async () => {
+    axios.get(`users/${handle}/${postsRoute}`).then((res) => {
+      setUserPosts(res.data);
+    });
+  };
 
-    fetchUser();
+  useEffect(() => {
+    fetchPosts();
   }, [handle, postsRoute]);
 
   return (
@@ -29,22 +29,21 @@ export const Profile = ({ postsRoute }: ProfileProps) => {
           return (
             <Piupiu
               key={piupiu.id}
+              id={piupiu.id}
               author={piupiu.author}
+              onChange={fetchPosts}
               reactions={{
-                reactions: {
-                  comment: {
-                    active: false,
-                    total: 0,
-                  },
-                  repiu: {
-                    active: false,
-                    total: 0,
-                  },
-                  like: {
-                    total: piupiu.likes?.total,
-                    active: piupiu.liked,
-                    onClick: () => {},
-                  },
+                comment: {
+                  active: false,
+                  total: 0,
+                },
+                repiu: {
+                  active: false,
+                  total: 0,
+                },
+                like: {
+                  total: piupiu.likes?.total,
+                  active: piupiu.liked,
                 },
               }}
               body={piupiu.message}

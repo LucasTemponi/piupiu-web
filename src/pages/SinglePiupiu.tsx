@@ -55,21 +55,6 @@ export const SinglePiupiu = () => {
     setReplying(false);
   };
 
-  const handleLike = async (piupiuId: string, nextState: boolean) => {
-    console.log("nextState", nextState, piupiuId);
-    try {
-      if (nextState) {
-        await axios.post(`/posts/${piupiuId}/like`);
-      } else {
-        console.log("no delete");
-        await axios.delete(`/posts/${piupiuId}/like`);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    getReplies();
-  };
-
   return (
     <>
       <NavHeader title="Post" />
@@ -110,22 +95,21 @@ export const SinglePiupiu = () => {
         return (
           <Piupiu
             key={piupiu.id}
+            id={piupiu.id}
             author={piupiu.author}
+            onChange={getReplies}
             reactions={{
-              reactions: {
-                comment: {
-                  active: false,
-                  total: piupiu.replies?.total,
-                },
-                repiu: {
-                  active: false,
-                  total: 0,
-                },
-                like: {
-                  total: piupiu.likes?.total,
-                  active: piupiu.liked,
-                  onClick: (nextState) => handleLike(piupiu.id, nextState),
-                },
+              comment: {
+                active: false,
+                total: piupiu.replies?.total,
+              },
+              repiu: {
+                active: false,
+                total: 0,
+              },
+              like: {
+                total: piupiu.likes?.total,
+                active: piupiu.liked,
               },
             }}
             body={piupiu.message}

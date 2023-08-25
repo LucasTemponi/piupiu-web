@@ -24,7 +24,7 @@ export const Username = ({
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.stopPropagation();
-    clickable && navigate(`/${user?.handle}`);
+    navigate(`/${user?.handle}`);
   };
 
   return (
@@ -39,7 +39,9 @@ export const Username = ({
           size === "xl" ? "text-xl " : "text-sm"
         } font-bold flex justify-start ${clickable ? "hover:underline" : ""} `}
       >
-        <span onClick={handleUserClick}>{user?.name}</span>
+        <span onClick={clickable ? handleUserClick : undefined}>
+          {user?.name}
+        </span>
         {user?.verified && showVerified && (
           <LuVerified
             className={`ml-1 my-auto ${

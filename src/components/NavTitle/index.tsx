@@ -16,6 +16,7 @@ export const NavTitle = ({ children, navOptions }: NavTitleProps) => {
         {navOptions.map((option) => {
           return (
             <NavLink
+              end
               key={option.title}
               to={option.path}
               className="flex relative flex-col cursor-pointer w-full justify-center items-center text-zinc-300 hover:bg-zinc-900"

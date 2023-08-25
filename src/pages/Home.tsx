@@ -13,10 +13,15 @@ export const Home = () => {
   const [textValue, setTextValue] = useState("");
   const navigate = useNavigate();
   const { user } = useAuth();
-  useEffect(() => {
+
+  const handleRefresh = () => {
     axios.get("/pius").then((res) => {
       setPiupius(res.data);
     });
+  };
+
+  useEffect(() => {
+    handleRefresh();
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -33,23 +38,6 @@ export const Home = () => {
           setAddingPiupiu(false);
         });
       });
-  };
-
-  const handleLike = async (piupiuId: string, nextState: boolean) => {
-    console.log("nextState", nextState, piupiuId);
-    try {
-      if (nextState) {
-        await axios.post(`/posts/${piupiuId}/like`);
-      } else {
-        console.log("no delete");
-        await axios.delete(`/posts/${piupiuId}/like`);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    axios.get("/pius").then((res) => {
-      setPiupius(res.data);
-    });
   };
 
   return (
@@ -76,22 +64,21 @@ export const Home = () => {
           <Piupiu
             onClick={() => navigate(`/piu/${piupiu.id}`)}
             key={piupiu.id}
+            id={piupiu.id}
             author={piupiu.author}
+            onChange={handleRefresh}
             reactions={{
-              reactions: {
-                comment: {
-                  // active: piupiu.replies?.total !== 0,
-                  total: piupiu.replies?.total,
-                },
-                repiu: {
-                  active: false,
-                  total: 0,
-                },
-                like: {
-                  total: piupiu.likes?.total,
-                  active: piupiu.liked,
-                  onClick: (nextState) => handleLike(piupiu.id, nextState),
-                },
+              comment: {
+                // active: piupiu.replies?.total !== 0,
+                total: piupiu.replies?.total,
+              },
+              repiu: {
+                active: false,
+                total: 0,
+              },
+              like: {
+                total: piupiu.likes?.total,
+                active: piupiu.liked,
               },
             }}
             body={piupiu.message}

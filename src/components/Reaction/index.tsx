@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
-
 export type ReactionProps = {
   icon: React.ReactNode;
   count: number;
   variant: "primary" | "secondary" | "tertiary";
-  onClick?: (nextState: boolean) => void;
+  onClick?: () => void;
   active?: boolean;
   type?: "simplified" | "complete";
 };
@@ -34,30 +32,23 @@ export const Reaction = ({
   active,
   type = "complete",
 }: ReactionProps) => {
-  const [checked, setChecked] = useState(active);
-
-  useEffect(() => {
-    setChecked(active);
-  }, [active]);
-
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    setChecked(!checked);
-    onClick?.(!checked);
+    onClick?.();
   };
 
   return (
     <div
       onClick={handleClick}
       className={`flex group select-none h-5 items-center gap-2 ${
-        variantColors(checked)[variant].text
+        variantColors(active)[variant].text
       } cursor-pointer`}
     >
       <div className="w-5 h-5 transition-colors flex items-center justify-center">
         <div
           className={`absolute opacity-10 w-8 h-8 rounded-full ${
-            variantColors(checked)[variant].glow
+            variantColors(active)[variant].glow
           }`}
         ></div>
         {icon}
