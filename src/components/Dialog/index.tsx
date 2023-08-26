@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useCloseElement } from "../../hooks/useCloseElement";
 
 type DialogProps = {
@@ -11,7 +12,18 @@ export const Dialog = ({ open, onClose, children }: DialogProps) => {
     onChange: onClose,
   });
 
-  console.log(open);
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
+
   return (
     open && (
       <dialog
