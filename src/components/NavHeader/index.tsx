@@ -8,7 +8,7 @@ type NavHeaderProps = {
 export const NavHeader = ({ title, subtitle }: NavHeaderProps) => {
   const navigate = useNavigate();
   return (
-    <header className="flex z-10 bg-semitransparent-dark backdrop-blur-md top-0 select-none px-2 pb-1 border-[#2f3336] border-x-[1px] sticky items-center gap-5">
+    <header className="flex z-20 bg-semitransparent-dark backdrop-blur-md top-0 select-none px-2 pb-1 border-[#2f3336] border-x-[1px] sticky items-center gap-5">
       <div
         onClick={() => navigate(-1)}
         className="h-9 w-9 hover:bg-zinc-900 rounded-full flex justify-center items-center"

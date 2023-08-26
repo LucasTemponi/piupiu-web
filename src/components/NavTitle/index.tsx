@@ -12,7 +12,7 @@ type NavTitleProps = {
 export const NavTitle = ({ children, navOptions, position }: NavTitleProps) => {
   return (
     <title
-      className={`${position} flex border-[#2f3336] top-0 backdrop-blur-md bg-semitransparent-dark border-b-[1px] border-x-[1px] flex-col`}
+      className={`${position} flex z-10 border-[#2f3336] top-0 backdrop-blur-md bg-semitransparent-dark border-b-[1px] border-x-[1px] flex-col`}
     >
       {children}
       <nav className="flex select-none w-full justify-center h-12 ">
