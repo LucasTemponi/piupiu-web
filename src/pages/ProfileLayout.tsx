@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { NavHeader } from "../components/NavHeader";
 import NavTitle from "../components/NavTitle";
 import ProfilePic from "../components/ProfilePic";
@@ -20,25 +20,36 @@ export const ProfileLayout = () => {
   const { handle } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      axios
-        .get(`users/${handle}`)
-        .then((res) => {
-          setUser(res.data.user);
-          setUserPosts(res.data.posts);
-        })
-        .catch(() => {
-          navigate("/home");
-        });
-    };
+  const fetchUser = useCallback(async () => {
+    axios
+      .get(`users/${handle}`)
+      .then((res) => {
+        setUser(res.data.user);
+        setUserPosts(res.data.posts);
+      })
+      .catch(() => {
+        navigate("/home");
+      });
+  }, [handle]);
 
+  useEffect(() => {
     fetchUser();
   }, [handle]);
 
   const handleDialogClick = () => {
     // dialogRef.current?.showModal();
     setDialogOpen(!dialogOpen);
+  };
+
+  const handleUpdateSubmit = async (user: Partial<User>) => {
+    console.log("No Submit: ", user);
+    try {
+      await axios.patch(`/users/${handle}`, user);
+      setDialogOpen(false);
+      fetchUser();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -87,7 +98,7 @@ export const ProfileLayout = () => {
         }}
         open={dialogOpen}
       >
-        {user && <ProfileEditForm user={user} />}
+        {user && <ProfileEditForm onSubmit={handleUpdateSubmit} user={user} />}
       </Dialog>
     </>
   );
