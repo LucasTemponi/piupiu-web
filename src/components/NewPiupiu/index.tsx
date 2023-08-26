@@ -1,8 +1,7 @@
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ProfilePic } from "../ProfilePic";
 import { Button } from "../Button";
 import sound from "../../assets/E o pintinho piu.mp3";
-import axios from "axios";
 import { Textarea } from "../Textarea";
 
 type NewPiupiuProps = {
@@ -29,42 +28,9 @@ export const NewPiupiu = ({
 }: NewPiupiuProps) => {
   const [isActive, setIsActive] = useState(false);
   const [controlledValue, setControlledValue] = useState(value);
-  const [error, setError] = useState(false);
-  const [foundLinks, setFoundLinks] = useState("");
+  const [error] = useState(false);
+  const [foundLinks] = useState("");
   const piupiuSound = useMemo(() => new Audio(sound), []);
-
-  const checkLink = (link: string) => {
-    axios.head(link).then((res) => {
-      console.log(res.headers["content-type"]);
-      if (res.headers["content-type"]?.toString().includes("image")) {
-        setFoundLinks(link);
-      }
-    });
-  };
-  function handleTextAreaInput(event: ChangeEvent<HTMLTextAreaElement>) {
-    if (event.target.value.length >= 240) {
-      setError(true);
-      return;
-    }
-    error && setError(false);
-    event.target.style.height = "";
-    event.target.style.height = event.target.scrollHeight + 3.5 + "px";
-    const link = event.target.value.match(/https?:\/\/(.[^\s]+)/g)?.[0];
-    if (link) {
-      // setFoundLinks(link);
-      const newValue = event.target.value;
-      console.log("No onChange: ", newValue.replace(link, ""));
-      setFoundLinks(link);
-      setControlledValue(newValue);
-    } else {
-      setControlledValue(event.target.value);
-      foundLinks && setFoundLinks("");
-    }
-
-    // if (!test) setFoundLinks("");
-    // setControlledValue(event.target.value);
-    // onChange?.(event);
-  }
 
   const placeholderText = useMemo(
     () =>

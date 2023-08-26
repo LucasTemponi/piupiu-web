@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { NavHeader } from "../components/NavHeader";
 import NavTitle from "../components/NavTitle";
 import ProfilePic from "../components/ProfilePic";
