@@ -1,7 +1,9 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { ProfilePic } from "../ProfilePic";
 import { Button } from "../Button";
 import sound from "../../assets/E o pintinho piu.mp3";
+import axios from "axios";
+import { Textarea } from "../Textarea";
 
 type NewPiupiuProps = {
   user: {
@@ -26,12 +28,42 @@ export const NewPiupiu = ({
   loading,
 }: NewPiupiuProps) => {
   const [isActive, setIsActive] = useState(false);
+  const [controlledValue, setControlledValue] = useState(value);
+  const [error, setError] = useState(false);
+  const [foundLinks, setFoundLinks] = useState("");
   const piupiuSound = useMemo(() => new Audio(sound), []);
 
+  const checkLink = (link: string) => {
+    axios.head(link).then((res) => {
+      console.log(res.headers["content-type"]);
+      if (res.headers["content-type"]?.toString().includes("image")) {
+        setFoundLinks(link);
+      }
+    });
+  };
   function handleTextAreaInput(event: ChangeEvent<HTMLTextAreaElement>) {
+    if (event.target.value.length >= 240) {
+      setError(true);
+      return;
+    }
+    error && setError(false);
     event.target.style.height = "";
     event.target.style.height = event.target.scrollHeight + 3.5 + "px";
-    onChange?.(event);
+    const link = event.target.value.match(/https?:\/\/(.[^\s]+)/g)?.[0];
+    if (link) {
+      // setFoundLinks(link);
+      const newValue = event.target.value;
+      console.log("No onChange: ", newValue.replace(link, ""));
+      setFoundLinks(link);
+      setControlledValue(newValue);
+    } else {
+      setControlledValue(event.target.value);
+      foundLinks && setFoundLinks("");
+    }
+
+    // if (!test) setFoundLinks("");
+    // setControlledValue(event.target.value);
+    // onChange?.(event);
   }
 
   const placeholderText = useMemo(
@@ -41,6 +73,10 @@ export const NewPiupiu = ({
         : "Prove que essa pessoa está errada!",
     [placeholder, variant]
   );
+
+  useEffect(() => {
+    setControlledValue(value || "");
+  }, [value]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -53,28 +89,36 @@ export const NewPiupiu = ({
       <ProfilePic userName={user.name} image={user.image_url} />
       <form
         onSubmit={handleSubmit}
-        className={`w-full  px-3 flex justify-end ${
+        className={`w-full px-3 flex justify-end ${
           variant === "new" ? "flex-col" : "items-center"
         }`}
       >
-        <textarea
+        <Textarea
           rows={1}
-          value={value}
+          value={controlledValue}
           onClick={() => setIsActive(true)}
           placeholder={placeholderText}
           className="w-full text-xl resize-none overflow-y-hidden py-2.5 px-1 caret-primary bg-transparent focus:outline-none"
-          onChange={handleTextAreaInput}
+          onChange={onChange}
         />
+        <img className="max-w-full m-auto" src={foundLinks} />
         {isActive && <hr className="my-3 border-t-[1px] border-[#2f3336] " />}
-        <div className="ml-auto w-28">
-          <Button
-            loading={loading}
-            disabled={!value}
-            type="submit"
-            variant="secondary"
-          >
-            Piar
-          </Button>
+        <div className="flex">
+          {error && (
+            <span className="text-red-500 text-sm w-50">
+              Piupiu muito grande!
+            </span>
+          )}
+          <div className="ml-auto w-28">
+            <Button
+              loading={loading}
+              disabled={!controlledValue || error}
+              type="submit"
+              variant="secondary"
+            >
+              Piar
+            </Button>
+          </div>
         </div>
       </form>
     </article>

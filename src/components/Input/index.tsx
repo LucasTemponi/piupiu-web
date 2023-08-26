@@ -4,10 +4,10 @@ type ButtonProps = InputHTMLAttributes<HTMLInputElement>;
 
 export const Input = ({ placeholder, value, ...props }: ButtonProps) => {
   return (
-    <div className="relative group">
+    <div className="relative w-full  group">
       {placeholder && (
         <label
-          className={`absolute transition duration-300 group-focus-within:ring-primary-100 group-focus-within:text-primary-100 group-focus-within:text-xs group-focus-within:translate-y-1 text-base ${
+          className={`absolute transition duration-300 pointer-events-none group-focus-within:ring-primary-100 group-focus-within:text-primary-100 group-focus-within:text-xs group-focus-within:translate-y-1 text-base ${
             value ? "text-xs translate-y-1" : "translate-y-4"
           } translate-x-2`}
         >

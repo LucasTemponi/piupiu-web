@@ -24,7 +24,7 @@ export const CompletePiupiu = ({
         <ProfilePic image={author?.image_url} userName={author?.name || ""} />
         <Username variant="column" user={author} />
       </header>
-      <main className="border-b-[1px] border-[#2f3336] text-left pb-4 ">
+      <main className="border-b-[1px] pr-4 break-words border-[#2f3336] text-left pb-4 ">
         {body}
       </main>
       <span>{timestamp}</span>

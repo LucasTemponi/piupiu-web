@@ -35,24 +35,28 @@ export const Piupiu = ({
   const { user } = useAuth();
   const navigate = useNavigate();
   const replyRef = useRef<HTMLDivElement | null>(null);
+  const debounceTimer = useRef<number | undefined>();
 
   const handleLike = useCallback(async () => {
-    try {
-      if (!liked) {
-        setLiked(true);
-        setLikesTotal(likesTotal + 1);
-        await axios.post(`/posts/${id}/like`);
-      } else {
-        setLiked(false);
-        await axios.delete(`/posts/${id}/like`);
+    setLiked(!liked);
+    liked ? setLikesTotal(likesTotal - 1) : setLikesTotal(likesTotal + 1);
+    clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(async () => {
+      if (liked !== reactions.like?.active) return;
+      try {
+        if (!liked) {
+          await axios.post(`/posts/${id}/like`);
+        } else {
+          await axios.delete(`/posts/${id}/like`);
+        }
+      } catch (err) {
+        setLiked(!liked);
+        console.log(err);
+      } finally {
+        onChange?.();
       }
-    } catch (err) {
-      setLiked(!liked);
-      setLikesTotal(likesTotal - 1);
-      console.log(err);
-    }
-    onChange?.();
-  }, [id, liked, onChange]);
+    }, 1000);
+  }, [id, liked, onChange, debounceTimer.current]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,12 +130,12 @@ export const Piupiu = ({
     <div ref={replyRef}>
       <article
         onClick={handleClick}
-        className="flex cursor-pointer hover:bg-[rgba(255,255,255,0.03)] select-none border-t-0 w-full h-min px-4 py-2 border-[#2f3336] border-[1px] "
+        className="flex cursor-pointer hover:bg-[rgba(255,255,255,0.03)] select-none border-t-0 w-full px-4 py-2 border-[#2f3336] border-[1px] "
       >
         <ProfilePic image={author.image_url} userName={author.name} />
         <div className="px-2 w-full">
           <Username user={author} />
-          <main className="mt-1 text-left mb-1">{body}</main>
+          <main className="mt-1 break-words pr-8 text-left mb-1">{body}</main>
           <ReactionsBar reactions={reactionProps} />
         </div>
       </article>

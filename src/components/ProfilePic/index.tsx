@@ -16,7 +16,7 @@ export const ProfilePic = ({
       alt={`Foto de ${userName}`}
       className={`rounded-full ${
         variant === "small" ? "w-10 h-10" : "w-32 h-32"
-      } ${border ? "border-4 border-slate-950" : ""}`}
+      } ${border ? "border-4 border-slate-950" : ""} text-center `}
       src={image || defaultProfilePic}
       loading="lazy"
     />

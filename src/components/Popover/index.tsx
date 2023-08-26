@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { BiSolidDownArrow } from "react-icons/bi";
+import { useCloseElement } from "../../hooks/useCloseElement";
 type PopoverProps = {
   children: React.ReactNode;
   // ref: React.RefObject<HTMLDivElement>;
@@ -7,33 +8,37 @@ type PopoverProps = {
   onChange: (state: boolean) => void;
 };
 export const Popover = ({ children, open, onChange }: PopoverProps) => {
-  const popoverRef = useRef<HTMLDivElement | null>(null);
+  const popoverRef = useCloseElement({
+    initialState: open,
+    onChange,
+  });
+  // const popoverRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const closeOnClickOut = (e: MouseEvent) => {
-      if (
-        open &&
-        popoverRef.current &&
-        !e.composedPath().includes(popoverRef.current)
-      ) {
-        onChange(false);
-      }
-    };
+  // useEffect(() => {
+  //   const closeOnClickOut = (e: MouseEvent) => {
+  //     if (
+  //       open &&
+  //       popoverRef.current &&
+  //       !e.composedPath().includes(popoverRef.current)
+  //     ) {
+  //       onChange(false);
+  //     }
+  //   };
 
-    const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && open) {
-        onChange(false);
-      }
-    };
+  //   const handleEscKey = (event: KeyboardEvent) => {
+  //     if (event.key === "Escape" && open) {
+  //       onChange(false);
+  //     }
+  //   };
 
-    window.addEventListener("mousedown", closeOnClickOut);
-    window.addEventListener("keydown", handleEscKey);
+  //   window.addEventListener("mousedown", closeOnClickOut);
+  //   window.addEventListener("keydown", handleEscKey);
 
-    return () => {
-      window.removeEventListener("mousedown", closeOnClickOut);
-      window.removeEventListener("keydown", handleEscKey);
-    };
-  }, [open]);
+  //   return () => {
+  //     window.removeEventListener("mousedown", closeOnClickOut);
+  //     window.removeEventListener("keydown", handleEscKey);
+  //   };
+  // }, [open]);
 
   return open ? (
     <div
