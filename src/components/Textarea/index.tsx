@@ -10,7 +10,7 @@ type TextAreaProps = {
 const textAreaStyles = (
   hasPlaceholder: boolean
 ): Record<Required<TextAreaProps>["variant"], string> => ({
-  styled: `px-2 w-full focus:outline focus:outline-primary-100 ${
+  styled: `overflow-y-hidden resize-none px-2 w-full focus:outline focus:outline-primary-100 ${
     hasPlaceholder ? "pt-5 pb-2" : "py-3"
   }`,
   plain:
