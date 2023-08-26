@@ -17,7 +17,6 @@ export const ProfileEditForm = ({ onSubmit, user }: ProfileEditFormProps) => {
 
   const handleOnSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("CHAMOU!");
     const userData: Partial<User> = {
       description,
       image_url: imageUrl,

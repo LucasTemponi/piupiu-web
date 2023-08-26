@@ -42,7 +42,6 @@ export const ProfileLayout = () => {
   };
 
   const handleUpdateSubmit = async (user: Partial<User>) => {
-    console.log("No Submit: ", user);
     try {
       await axios.patch(`/users/${handle}`, user);
       setDialogOpen(false);
@@ -93,7 +92,6 @@ export const ProfileLayout = () => {
       <Outlet />
       <Dialog
         onClose={() => {
-          console.log("close do modal");
           setDialogOpen(false);
         }}
         open={dialogOpen}
