@@ -17,7 +17,7 @@ export const SideBar = () => {
         />
         <ul>
           <NavLink to="/home">
-            <li className="flex mb-4 cursor-pointer p-3 rounded-full hover:bg-zinc-900 items-center gap-4">
+            <li className="flex mb-4 cursor-pointer pr-8 w-min p-3 rounded-full hover:bg-zinc-900 items-center gap-4">
               <BiHomeCircle className="fill-white text-2xl" />
               <span className="text-xl hidden xl:block ">Home</span>
             </li>
@@ -26,12 +26,12 @@ export const SideBar = () => {
             to={`/${user?.handle}`}
             className={({ isActive }) => (isActive ? "font-bold" : "")}
           >
-            <li className="flex mb-4 p-3 cursor-pointer  rounded-full hover:bg-zinc-900 items-center gap-4">
+            <li className="flex mb-4 p-3 pr-8 w-min cursor-pointer  rounded-full hover:bg-zinc-900 items-center gap-4">
               <BsPerson className="fill-white text-2xl" />
               <span className="text-xl hidden xl:block">Perfil</span>
             </li>
           </NavLink>
-          <li className="flex mb-4 cursor-pointer p-3  rounded-full hover:bg-zinc-900 items-center gap-4">
+          <li className="flex mb-4 w-min pr-8 cursor-pointer p-3  rounded-full hover:bg-zinc-900 items-center gap-4">
             <LuVerified className="stroke-black fill-white text-2xl" />
             <span className="text-xl hidden xl:block">Verificado</span>
           </li>
