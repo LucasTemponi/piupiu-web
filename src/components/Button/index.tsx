@@ -29,7 +29,7 @@ export const Button = ({
   return (
     <button
       {...props}
-      className={`text-se bg-pri ml-auto w-full cursor-pointer disabled:cursor-auto disabled disabled:bg-zinc-700 px-6 ${thicknessStyles[thickness]} rounded-3xl ${variantStyles[variant]}`}
+      className={`text-se bg-pri ml-auto w-full cursor-pointer disabled:cursor-auto disabled disabled:bg-zinc-700 px-3 ${thicknessStyles[thickness]} rounded-3xl ${variantStyles[variant]}`}
     >
       {loading ? <CircularSpinner variant={variant} /> : children}
     </button>

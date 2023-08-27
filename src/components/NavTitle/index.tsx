@@ -1,4 +1,7 @@
 import { NavLink } from "react-router-dom";
+import { Piu } from "../../types/Pius";
+import { useMemo } from "react";
+import { RefrehPostsButton } from "../RefreshPostsButton";
 
 type NavTitleProps = {
   children: React.ReactNode;
@@ -7,9 +10,29 @@ type NavTitleProps = {
     title: string;
     path: string;
   }[];
+  refreshButton?: {
+    onClick?: () => void;
+    newPosts?: Piu[];
+  };
 };
 
-export const NavTitle = ({ children, navOptions, position }: NavTitleProps) => {
+export const NavTitle = ({
+  children,
+  navOptions,
+  position,
+  refreshButton,
+}: NavTitleProps) => {
+  const refreshButtonValues = useMemo(() => {
+    return [
+      ...new Map(
+        refreshButton?.newPosts?.map((item) => [
+          item.author?.handle,
+          item.author,
+        ])
+      ).values(),
+    ].slice(0, 3);
+  }, [refreshButton?.newPosts]);
+
   return (
     <title
       className={`${position} flex z-10 border-[#2f3336] top-0 backdrop-blur-md bg-semitransparent-dark border-b-[1px] border-x-[1px] flex-col`}
@@ -38,6 +61,9 @@ export const NavTitle = ({ children, navOptions, position }: NavTitleProps) => {
           );
         })}
       </nav>
+      {refreshButton?.newPosts && refreshButtonValues.length > 0 && (
+        <RefrehPostsButton newPostsUsers={refreshButtonValues} />
+      )}
     </title>
   );
 };

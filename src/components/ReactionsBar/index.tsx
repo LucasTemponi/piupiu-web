@@ -54,6 +54,7 @@ export const ReactionsBar = ({ reactions, type }: ReactionsBarProps) => {
     <div className="flex gap-16">
       {Object.entries(reactions).map(([key, value]) => (
         <Reaction
+          key={key}
           onClick={value.onClick}
           variant={baseReactions[key as keyof typeof baseReactions].variant}
           count={value.total || 0}
@@ -65,7 +66,6 @@ export const ReactionsBar = ({ reactions, type }: ReactionsBarProps) => {
                 baseReactions[key as keyof typeof baseReactions].icon.default
               : baseReactions[key as keyof typeof baseReactions].icon.default
           }
-          key={key}
         />
       ))}
     </div>

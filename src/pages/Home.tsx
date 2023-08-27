@@ -1,17 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { NewPiupiu } from "../components/NewPiupiu";
-import { Piupiu } from "../components/Piupius";
 import { Piu } from "../types/Pius";
 import NavTitle from "../components/NavTitle";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/Auth";
+import { PiupiuList } from "../components/PiupiuList";
 
 export const Home = () => {
   const [piupius, setPiupius] = useState<Piu[]>();
   const [addingPiupiu, setAddingPiupiu] = useState(false);
   const [textValue, setTextValue] = useState("");
-  const navigate = useNavigate();
   const { user } = useAuth();
 
   const handleRefresh = () => {
@@ -41,7 +39,7 @@ export const Home = () => {
   };
 
   return (
-    <>
+    <div className="relative">
       <NavTitle
         position="sticky"
         navOptions={[
@@ -60,32 +58,7 @@ export const Home = () => {
           user={user}
         />
       )}
-      {piupius?.map((piupiu: Piu) => {
-        return (
-          <Piupiu
-            onClick={() => navigate(`/piu/${piupiu.id}`)}
-            key={piupiu.id}
-            id={piupiu.id}
-            author={piupiu.author}
-            onChange={handleRefresh}
-            reactions={{
-              comment: {
-                // active: piupiu.replies?.total !== 0,
-                total: piupiu.replies?.total,
-              },
-              repiu: {
-                active: false,
-                total: 0,
-              },
-              like: {
-                total: piupiu.likes?.total,
-                active: piupiu.liked,
-              },
-            }}
-            body={piupiu.message}
-          />
-        );
-      })}
-    </>
+      <PiupiuList piupius={piupius} onChange={handleRefresh} />
+    </div>
   );
 };

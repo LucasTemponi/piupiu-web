@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { CompletePiupiu } from "../components/CompletePiupiu";
 import { NavHeader } from "../components/NavHeader";
 import { Piu } from "../types/Pius";
-import Piupiu from "../components/Piupius";
 import NewPiupiu from "../components/NewPiupiu";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/Auth";
+import { PiupiuList } from "../components/PiupiuList";
 
 export const SinglePiupiu = () => {
   const [replies, setReplies] = useState<Piu[]>();
@@ -90,31 +90,7 @@ export const SinglePiupiu = () => {
           loading={replying}
         />
       )}
-      {replies?.map((piupiu: Piu) => {
-        return (
-          <Piupiu
-            key={piupiu.id}
-            id={piupiu.id}
-            author={piupiu.author}
-            onChange={getReplies}
-            reactions={{
-              comment: {
-                active: false,
-                total: piupiu.replies?.total,
-              },
-              repiu: {
-                active: false,
-                total: 0,
-              },
-              like: {
-                total: piupiu.likes?.total,
-                active: piupiu.liked,
-              },
-            }}
-            body={piupiu.message}
-          />
-        );
-      })}
+      <PiupiuList piupius={replies} onChange={getReplies} />
     </>
   );
 };

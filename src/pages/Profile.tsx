@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Piu } from "../types/Pius";
-import Piupiu from "../components/Piupius";
 import { useParams } from "react-router-dom";
+import { PiupiuList } from "../components/PiupiuList";
 // import { NavLink } from "react-router-dom";
 
 type ProfileProps = {
@@ -25,31 +25,7 @@ export const Profile = ({ postsRoute }: ProfileProps) => {
   return (
     <>
       <main>
-        {userPosts?.map((piupiu: Piu) => {
-          return (
-            <Piupiu
-              key={piupiu.id}
-              id={piupiu.id}
-              author={piupiu.author}
-              onChange={fetchPosts}
-              reactions={{
-                comment: {
-                  active: false,
-                  total: 0,
-                },
-                repiu: {
-                  active: false,
-                  total: 0,
-                },
-                like: {
-                  total: piupiu.likes?.total,
-                  active: piupiu.liked,
-                },
-              }}
-              body={piupiu.message}
-            />
-          );
-        })}
+        <PiupiuList piupius={userPosts} />
       </main>
     </>
   );
