@@ -1,41 +1,47 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NewPiupiu } from "../components/NewPiupiu";
 import { Piu } from "../types/Pius";
 import NavTitle from "../components/NavTitle";
 import { useAuth } from "../contexts/Auth";
 import { PiupiuList } from "../components/PiupiuList";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import queryClient from "../service/queryClient";
 
 export const Home = () => {
-  const [piupius, setPiupius] = useState<Piu[]>();
-  const [addingPiupiu, setAddingPiupiu] = useState(false);
   const [textValue, setTextValue] = useState("");
   const { user } = useAuth();
-
-  const handleRefresh = () => {
-    axios.get("/pius").then((res) => {
-      setPiupius(res.data);
-    });
-  };
-
-  useEffect(() => {
-    handleRefresh();
-  }, []);
+  const {
+    data: piupius,
+    isLoading,
+    refetch,
+  } = useQuery<Piu[]>({
+    queryKey: ["pius"],
+    queryFn: () => axios.get("/pius").then((res) => res.data),
+    cacheTime: 4500,
+    refetchInterval: 5000,
+  });
+  const { mutate, isLoading: addingPiupiu } = useMutation({
+    mutationFn: (textValue: string) =>
+      axios
+        .post("/posts", {
+          message: textValue,
+        })
+        .then((res) => res.data),
+    onSuccess: (data) => {
+      queryClient.setQueryData(["pius"], (oldData: Piu[] | undefined) => {
+        return oldData ? [data, ...oldData] : data;
+      });
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    setAddingPiupiu(true);
     e.preventDefault();
-    axios
-      .post("/posts", {
-        message: textValue,
-      })
-      .then(() => {
+    mutate(textValue, {
+      onSuccess: () => {
         setTextValue("");
-        axios.get("/pius").then((res) => {
-          setPiupius(res.data);
-          setAddingPiupiu(false);
-        });
-      });
+      },
+    });
   };
 
   return (
@@ -58,7 +64,7 @@ export const Home = () => {
           user={user}
         />
       )}
-      <PiupiuList piupius={piupius} onChange={handleRefresh} />
+      <PiupiuList loading={isLoading} piupius={piupius} onChange={refetch} />
     </div>
   );
 };

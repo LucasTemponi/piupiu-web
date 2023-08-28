@@ -1,20 +1,17 @@
-import { useEffect, useState } from "react";
 import { SideBar } from "../SideBar";
 import { SideCard } from "../Sidecard";
 import Button from "../Button";
 import { SideList } from "../SideList";
-import { User } from "../../types/Users";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 export const MainLayout = () => {
-  const [newUsers, setNewUsers] = useState<User[]>();
-
-  useEffect(() => {
-    axios.get("/users/latest").then((res) => {
-      setNewUsers(res.data);
-    });
-  }, []);
+  const { data: newUsers, isLoading } = useQuery({
+    queryKey: ["latest-users"],
+    queryFn: () => axios.get("/users/latest").then((res) => res.data),
+    staleTime: 290000,
+  });
 
   return (
     <>
@@ -34,7 +31,7 @@ export const MainLayout = () => {
             </Button>
           </div>
         </SideCard>
-        <SideList users={newUsers} />
+        <SideList loading={isLoading} users={newUsers} />
       </div>
     </>
   );
