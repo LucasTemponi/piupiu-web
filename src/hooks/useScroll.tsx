@@ -1,8 +1,9 @@
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject, useCallback, useEffect } from "react";
 
 type ScrollType = {
   topRef: MutableRefObject<Element | null>;
   bottomRef: MutableRefObject<Element | null>;
+  refreshVariable?: unknown;
   onTopEnter?: () => void;
   onTopLeave?: () => void;
   onBottomEnter?: () => void;
@@ -11,6 +12,7 @@ type ScrollType = {
 export const usePagination = ({
   topRef,
   bottomRef,
+  refreshVariable,
   onTopEnter,
   onTopLeave,
   onBottomEnter,
@@ -19,6 +21,16 @@ export const usePagination = ({
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const handleTopEnter = useCallback(() => onTopEnter?.(), [onTopEnter]);
+  const handleTopLeave = useCallback(() => onTopLeave?.(), [onTopLeave]);
+  const handleBottomEnter = useCallback(
+    () => onBottomEnter?.(),
+    [onBottomEnter]
+  );
+  const handleBottomLeave = useCallback(
+    () => onBottomLeave?.(),
+    [onBottomLeave]
+  );
 
   useEffect(() => {
     const options = {
@@ -26,22 +38,21 @@ export const usePagination = ({
       rootMargin: "0px",
       threshold: 1.0,
     };
-
     const bottomObserver = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        onBottomEnter?.();
+        handleBottomEnter?.();
       }
       if (!entry.isIntersecting) {
-        onBottomLeave?.();
+        handleBottomLeave?.();
       }
     }, options);
 
     const topObserver = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        onTopEnter?.();
+        handleTopEnter?.();
       }
       if (!entry.isIntersecting) {
-        onTopLeave?.();
+        handleTopLeave?.();
       }
     }, options);
 
@@ -57,14 +68,7 @@ export const usePagination = ({
       bottomObserver.disconnect();
       topObserver.disconnect();
     };
-  }, [
-    topRef.current,
-    bottomRef.current,
-    onTopEnter,
-    onTopLeave,
-    onBottomEnter,
-    onBottomLeave,
-  ]);
+  }, [refreshVariable]);
 
   return { scrollTop };
 };

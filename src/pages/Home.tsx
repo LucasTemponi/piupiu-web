@@ -5,92 +5,106 @@ import { Piu } from "../types/Pius";
 import NavTitle from "../components/NavTitle";
 import { useAuth } from "../contexts/Auth";
 import { PiupiuList } from "../components/PiupiuList";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "../service/queryClient";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { usePagination } from "../hooks/useScroll";
+import { Paginated } from "../types/Paginated";
+
+const piuComponentHeight = 85;
 
 export const Home = () => {
   const [textValue, setTextValue] = useState("");
   const [piupius, setPiupius] = useState<Piu[] | undefined>();
   const [newData, setNewData] = useState<Piu[] | undefined>();
+  const [addingPiupiu, setAddingPiupiu] = useState(false);
 
   const topRef = useRef<HTMLDivElement | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const topIsShowing = useRef(true);
-
+  const itemsPerPage = Math.ceil(window.screen.height / piuComponentHeight);
   const { user } = useAuth();
+
+  const { data, fetchNextPage, hasNextPage, isLoading, refetch } =
+    useInfiniteQuery<Paginated<Piu>>({
+      queryKey: ["pius"],
+      queryFn: async ({ pageParam = 1 }) => {
+        return axios
+          .get(`/pius?page=${pageParam}&per_page=${itemsPerPage}`)
+          .then((res) => res.data);
+      },
+      getNextPageParam: (lastPage) =>
+        lastPage.currentPage < lastPage.totalPages
+          ? lastPage.currentPage + 1
+          : undefined,
+      getPreviousPageParam: (firstPage) =>
+        firstPage.currentPage - 1 || undefined,
+      cacheTime: 4500,
+      refetchInterval: 5000,
+      refetchOnWindowFocus: false,
+      keepPreviousData: true,
+      structuralSharing: (oldData, incomingData) => {
+        if (!oldData) {
+          const dataToSave = incomingData.pages.flatMap((page) => page.data);
+          setPiupius(dataToSave);
+          return incomingData;
+        }
+        const newItems: Piu[] = [];
+        const oldItems: Piu[] = [];
+        incomingData.pages[0].data?.forEach((item) => {
+          const itemIsOld = oldData.pages[0].data?.find(
+            (piu) => piu.id === item.id
+          );
+          itemIsOld ? oldItems.push(item) : newItems.push(item);
+        });
+        if (newItems?.length !== 0 && !topIsShowing.current) {
+          setNewData((incomingData) =>
+            incomingData ? [...incomingData, ...newItems] : newItems
+          );
+          setPiupius(
+            oldItems.concat(
+              incomingData.pages.slice(1).flatMap((page) => page.data)
+            )
+          );
+        } else {
+          const dataToSave = incomingData.pages.flatMap((page) => page.data);
+          setPiupius(dataToSave);
+        }
+        return incomingData;
+      },
+    });
 
   const { scrollTop } = usePagination({
     onBottomEnter: () => {
-      console.log("BOTTOMENTER");
+      hasNextPage && fetchNextPage();
     },
     onTopEnter: () => {
-      console.log("TOPENTER");
-      setPiupius(data);
-      setNewData(undefined);
-      topIsShowing.current = true;
+      if (newData) {
+        setPiupius(data?.pages.flatMap((page) => page.data));
+        setNewData(undefined);
+        topIsShowing.current = true;
+      }
     },
     onTopLeave: () => {
-      console.log("TOPLEAVE");
       topIsShowing.current = false;
     },
     bottomRef,
     topRef,
-  });
-
-  const { data, isLoading, refetch } = useQuery<Piu[]>({
-    queryKey: ["pius"],
-    queryFn: () => axios.get("/pius").then((res) => res.data),
-    cacheTime: 4500,
-    refetchInterval: 5000,
-    refetchOnWindowFocus: false,
-    structuralSharing: (oldData, newData) => {
-      if (!oldData || !piupius) {
-        setPiupius(newData);
-        return newData;
-      }
-      const newItems: Piu[] = [];
-      const oldItems: Piu[] = [];
-      newData?.forEach((item) => {
-        const itemIsOld = oldData?.find((piu) => piu.id === item.id);
-        itemIsOld ? oldItems.push(item) : newItems.push(item);
-      });
-      if (newItems?.length !== 0 && !topIsShowing.current) {
-        setNewData((newData) =>
-          newData ? [...newData, ...newItems] : newItems
-        );
-        setPiupius(oldItems);
-      } else {
-        setPiupius(newData);
-      }
-      return newData;
-    },
-  });
-
-  const { mutate, isLoading: addingPiupiu } = useMutation({
-    mutationFn: (textValue: string) =>
-      axios
-        .post("/posts", {
-          message: textValue,
-        })
-        .then((res) => res.data),
-    onSuccess: (data) => {
-      queryClient.setQueryData(["pius"], (oldData: Piu[] | undefined) => {
-        const newState = oldData ? [data, ...oldData] : [data];
-        setPiupius(newState);
-        return newState;
-      });
-    },
-    onError: (err) => console.log("deu ruim na hora de piar... ", err),
+    refreshVariable: piupius,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    mutate(textValue, {
-      onSuccess: () => {
+    setAddingPiupiu(true);
+    axios
+      .post("/posts", {
+        message: textValue,
+      })
+      .then(() => {
         setTextValue("");
-      },
-    });
+        refetch();
+      })
+      .finally(() => {
+        setAddingPiupiu(false);
+      });
   };
 
   return (
