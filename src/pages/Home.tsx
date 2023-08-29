@@ -21,7 +21,7 @@ export const Home = () => {
     cacheTime: 4500,
     refetchInterval: 5000,
   });
-  const { mutateAsync, isLoading: addingPiupiu } = useMutation({
+  const { mutate, isLoading: addingPiupiu } = useMutation({
     mutationFn: (textValue: string) =>
       axios
         .post("/posts", {
@@ -33,19 +33,16 @@ export const Home = () => {
         return oldData ? [data, ...oldData] : data;
       });
     },
+    onError: (err) => console.log("deu ruim na hora de piar... ", err),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    try{
-      const res = await mutateAsync(textValue);
-      console.log({res})
-      setTextValue("");
-
-    }catch(e){
-      console.log('deu ruim na hora de piar... ', e)
-    }
+    mutate(textValue, {
+      onSuccess: () => {
+        setTextValue("");
+      },
+    });
   };
 
   return (
