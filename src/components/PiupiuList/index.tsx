@@ -6,12 +6,14 @@ import Piupiu from "../Piupius";
 type PiupiuList = {
   piupius?: Piu[];
   loading?: boolean;
+  initialLoading?: boolean;
   onChange?: () => void;
   topRef?: React.RefObject<HTMLDivElement>;
   bottomRef?: React.RefObject<HTMLDivElement>;
 };
 export const PiupiuList = ({
   piupius,
+  initialLoading,
   loading,
   onChange,
   bottomRef,
@@ -26,7 +28,7 @@ export const PiupiuList = ({
     [bottomRef, piupius, topRef]
   );
 
-  return loading ? (
+  return initialLoading ? (
     <div className="w-full flex items-center h-[50vh] justify-center">
       <CircularSpinner />
     </div>
@@ -58,6 +60,11 @@ export const PiupiuList = ({
           />
         );
       })}
+      {loading && (
+        <div className="w-full h-14 flex items-center justify-center">
+          <CircularSpinner />
+        </div>
+      )}
     </>
   );
 };

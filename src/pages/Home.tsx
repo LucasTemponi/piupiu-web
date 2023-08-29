@@ -23,54 +23,59 @@ export const Home = () => {
   const itemsPerPage = Math.ceil(window.screen.height / piuComponentHeight);
   const { user } = useAuth();
 
-  const { data, fetchNextPage, hasNextPage, isLoading, refetch } =
-    useInfiniteQuery<Paginated<Piu>>({
-      queryKey: ["pius"],
-      queryFn: async ({ pageParam = 1 }) => {
-        return axios
-          .get(`/pius?page=${pageParam}&per_page=${itemsPerPage}`)
-          .then((res) => res.data);
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage.currentPage < lastPage.totalPages
-          ? lastPage.currentPage + 1
-          : undefined,
-      getPreviousPageParam: (firstPage) =>
-        firstPage.currentPage - 1 || undefined,
-      cacheTime: 4500,
-      refetchInterval: 5000,
-      refetchOnWindowFocus: false,
-      keepPreviousData: true,
-      structuralSharing: (oldData, incomingData) => {
-        if (!oldData) {
-          const dataToSave = incomingData.pages.flatMap((page) => page.data);
-          setPiupius(dataToSave);
-          return incomingData;
-        }
-        const newItems: Piu[] = [];
-        const oldItems: Piu[] = [];
-        incomingData.pages[0].data?.forEach((item) => {
-          const itemIsOld = oldData.pages[0].data?.find(
-            (piu) => piu.id === item.id
-          );
-          itemIsOld ? oldItems.push(item) : newItems.push(item);
-        });
-        if (newItems?.length !== 0 && !topIsShowing.current) {
-          setNewData((incomingData) =>
-            incomingData ? [...incomingData, ...newItems] : newItems
-          );
-          setPiupius(
-            oldItems.concat(
-              incomingData.pages.slice(1).flatMap((page) => page.data)
-            )
-          );
-        } else {
-          const dataToSave = incomingData.pages.flatMap((page) => page.data);
-          setPiupius(dataToSave);
-        }
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isInitialLoading,
+    refetch,
+  } = useInfiniteQuery<Paginated<Piu>>({
+    queryKey: ["pius"],
+    queryFn: async ({ pageParam = 1 }) => {
+      return axios
+        .get(`/pius?page=${pageParam}&per_page=${itemsPerPage}`)
+        .then((res) => res.data);
+    },
+    getNextPageParam: (lastPage) =>
+      lastPage.currentPage < lastPage.totalPages
+        ? lastPage.currentPage + 1
+        : undefined,
+    getPreviousPageParam: (firstPage) => firstPage.currentPage - 1 || undefined,
+    cacheTime: 4500,
+    refetchInterval: 5000,
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
+    structuralSharing: (oldData, incomingData) => {
+      if (!oldData) {
+        const dataToSave = incomingData.pages.flatMap((page) => page.data);
+        setPiupius(dataToSave);
         return incomingData;
-      },
-    });
+      }
+      const newItems: Piu[] = [];
+      const oldItems: Piu[] = [];
+      incomingData.pages[0].data?.forEach((item) => {
+        const itemIsOld = oldData.pages[0].data?.find(
+          (piu) => piu.id === item.id
+        );
+        itemIsOld ? oldItems.push(item) : newItems.push(item);
+      });
+      if (newItems?.length !== 0 && !topIsShowing.current) {
+        setNewData((incomingData) =>
+          incomingData ? [...incomingData, ...newItems] : newItems
+        );
+        setPiupius(
+          oldItems.concat(
+            incomingData.pages.slice(1).flatMap((page) => page.data)
+          )
+        );
+      } else {
+        const dataToSave = incomingData.pages.flatMap((page) => page.data);
+        setPiupius(dataToSave);
+      }
+      return incomingData;
+    },
+  });
 
   const { scrollTop } = usePagination({
     onBottomEnter: () => {
@@ -134,6 +139,7 @@ export const Home = () => {
         />
       )}
       <PiupiuList
+        initialLoading={isInitialLoading}
         topRef={topRef}
         bottomRef={bottomRef}
         loading={isLoading}
