@@ -3,7 +3,6 @@ import axios from "axios";
 import { Piu } from "../types/Pius";
 import { useParams } from "react-router-dom";
 import { PiupiuList } from "../components/PiupiuList";
-// import { NavLink } from "react-router-dom";
 
 type ProfileProps = {
   postsRoute: "posts" | "likes";

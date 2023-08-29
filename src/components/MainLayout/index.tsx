@@ -5,7 +5,6 @@ import { SideList } from "../SideList";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-
 export const MainLayout = () => {
   const { data: newUsers, isLoading } = useQuery({
     queryKey: ["latest-users"],

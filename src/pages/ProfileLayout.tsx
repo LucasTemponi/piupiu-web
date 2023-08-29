@@ -37,7 +37,6 @@ export const ProfileLayout = () => {
   }, [handle]);
 
   const handleDialogClick = () => {
-    // dialogRef.current?.showModal();
     setDialogOpen(!dialogOpen);
   };
 
