@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Piu } from "../../types/Pius";
 import { useMemo } from "react";
 import { RefrehPostsButton } from "../RefreshPostsButton";
+import { useAuth } from "../../contexts/Auth";
 
 type NavTitleProps = {
   children: React.ReactNode;
@@ -22,13 +23,13 @@ export const NavTitle = ({
   position,
   refreshButton,
 }: NavTitleProps) => {
+  const { user } = useAuth();
   const refreshButtonValues = useMemo(() => {
     return [
       ...new Map(
-        refreshButton?.newPosts?.map((item) => [
-          item.author?.handle,
-          item.author,
-        ])
+        refreshButton?.newPosts
+          ?.filter((item) => item.author.handle !== user?.handle)
+          .map((item) => [item.author?.handle, item.author])
       ).values(),
     ].slice(0, 3);
   }, [refreshButton?.newPosts]);
@@ -62,7 +63,10 @@ export const NavTitle = ({
         })}
       </nav>
       {refreshButton?.newPosts && refreshButtonValues.length > 0 && (
-        <RefrehPostsButton newPostsUsers={refreshButtonValues} />
+        <RefrehPostsButton
+          onClick={refreshButton.onClick}
+          newPostsUsers={refreshButtonValues}
+        />
       )}
     </title>
   );

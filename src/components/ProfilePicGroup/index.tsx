@@ -9,6 +9,7 @@ export const ProfilePicGroup = ({ users }: { users: User[] }) => {
         return (
           <div
             className={`${index === 0 ? "ml-1" : "-ml-3"} ${picZIndex[index]}`}
+            key={user.handle}
           >
             <ProfilePic
               variant="verySmall"

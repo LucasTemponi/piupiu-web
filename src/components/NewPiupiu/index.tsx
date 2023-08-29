@@ -28,7 +28,7 @@ export const NewPiupiu = ({
 }: NewPiupiuProps) => {
   const [isActive, setIsActive] = useState(false);
   const [controlledValue, setControlledValue] = useState(value);
-  const [error] = useState(false);
+  const [error, setError] = useState(false);
   const [foundLinks] = useState("");
   const piupiuSound = useMemo(() => new Audio(sound), []);
 
@@ -39,6 +39,16 @@ export const NewPiupiu = ({
         : "Prove que essa pessoa está errada!",
     [placeholder, variant]
   );
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length > 240) {
+      setError(true);
+      return;
+    }
+    error && setError(false);
+    setControlledValue(e.target.value);
+    onChange?.(e);
+  };
 
   useEffect(() => {
     setControlledValue(value || "");
@@ -65,14 +75,14 @@ export const NewPiupiu = ({
           onClick={() => setIsActive(true)}
           placeholder={placeholderText}
           className="w-full text-xl resize-none overflow-y-hidden py-2.5 px-1 caret-primary bg-transparent focus:outline-none"
-          onChange={onChange}
+          onChange={handleTextChange}
         />
         <img className="max-w-full m-auto" src={foundLinks} />
         {isActive && <hr className="my-3 border-t-[1px] border-[#2f3336] " />}
         <div className="flex">
           {error && (
             <span className="text-red-500 text-sm w-50">
-              Piupiu muito grande!
+              Piupiu deve ter no máximo 240 caracteres
             </span>
           )}
           <div className="ml-auto w-28">
