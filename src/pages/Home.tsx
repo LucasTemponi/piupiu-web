@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { NewPiupiu } from "../components/NewPiupiu";
 import { Piu } from "../types/Pius";
 import NavTitle from "../components/NavTitle";
@@ -76,7 +76,6 @@ export const Home = () => {
         .then((res) => res.data),
     onSuccess: (data) => {
       queryClient.setQueryData(["pius"], (oldData: Piu[] | undefined) => {
-        console.log(data);
         const newState = oldData ? [data, ...oldData] : [data];
         setPiupius(newState);
         return newState;
