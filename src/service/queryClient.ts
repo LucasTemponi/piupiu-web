@@ -1,6 +1,8 @@
 import { QueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -9,7 +11,6 @@ export const queryClient = new QueryClient({
         if (failureCount >= 3) {
           return false;
         }
-
         if (error instanceof Error && axios.isAxiosError(error)) {
           if (
             error.response?.status &&

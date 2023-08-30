@@ -35,7 +35,7 @@ export const Home = () => {
     queryFn: async ({ pageParam = 1 }) => {
       return axios
         .get(`/pius?page=${pageParam}&per_page=${itemsPerPage}`)
-        .then((res) => res.data);
+        .then((res) => res?.data);
     },
     getNextPageParam: (lastPage) =>
       lastPage.currentPage < lastPage.totalPages

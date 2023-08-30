@@ -55,6 +55,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     axios.defaults.headers.common["Authorization"] = "";
   };
 
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response.data.errors.includes("expired")) {
+        signOut();
+        navigate("/login");
+      }
+    }
+  );
+
   return (
     <AuthContext.Provider
       value={{
