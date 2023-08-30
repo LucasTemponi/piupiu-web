@@ -1,4 +1,10 @@
-import { ChangeEvent, DetailedHTMLProps, TextareaHTMLAttributes } from "react";
+import {
+  ChangeEvent,
+  DetailedHTMLProps,
+  TextareaHTMLAttributes,
+  useEffect,
+  useRef,
+} from "react";
 
 type TextAreaProps = {
   variant?: "styled" | "plain";
@@ -21,14 +27,26 @@ export const Textarea = ({
   onChange,
   ...props
 }: TextAreaProps) => {
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const handleTextareaHeight = (element: HTMLTextAreaElement) => {
+    element.style.height = "";
+    element.style.height = element.scrollHeight + 3.5 + "px";
+  };
+
   function handleTextAreaInput(event: ChangeEvent<HTMLTextAreaElement>) {
-    event.target.style.height = "";
-    event.target.style.height = event.target.scrollHeight + 3.5 + "px";
+    handleTextareaHeight(event.target);
     onChange?.(event);
   }
 
+  useEffect(() => {
+    if (textAreaRef.current) {
+      handleTextareaHeight(textAreaRef.current);
+    }
+  }, [props.value]);
+
   return (
-    <div className="relative w-full  group">
+    <div className="relative w-full group">
       {variant === "styled" && props.placeholder && (
         <label
           className={`absolute transition duration-300 pointer-events-none group-focus-within:ring-primary-100 group-focus-within:text-primary-100 group-focus-within:text-xs group-focus-within:translate-y-1 text-base ${
@@ -39,6 +57,7 @@ export const Textarea = ({
         </label>
       )}
       <textarea
+        ref={textAreaRef}
         {...props}
         placeholder={variant === "styled" ? "" : props.placeholder}
         rows={1}

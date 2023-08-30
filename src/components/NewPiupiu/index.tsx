@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import { ProfilePic } from "../ProfilePic";
 import { Button } from "../Button";
 import sound from "../../assets/E o pintinho piu.mp3";
@@ -27,7 +27,6 @@ export const NewPiupiu = ({
   loading,
 }: NewPiupiuProps) => {
   const [isActive, setIsActive] = useState(false);
-  const [controlledValue, setControlledValue] = useState(value);
   const [error, setError] = useState(false);
   const [foundLinks] = useState("");
   const piupiuSound = useMemo(() => new Audio(sound), []);
@@ -46,13 +45,8 @@ export const NewPiupiu = ({
       return;
     }
     error && setError(false);
-    setControlledValue(e.target.value);
     onChange?.(e);
   };
-
-  useEffect(() => {
-    setControlledValue(value || "");
-  }, [value]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -71,7 +65,7 @@ export const NewPiupiu = ({
       >
         <Textarea
           rows={1}
-          value={controlledValue}
+          value={value}
           onClick={() => setIsActive(true)}
           placeholder={placeholderText}
           className="w-full text-xl resize-none overflow-y-hidden py-2.5 px-1 caret-primary bg-transparent focus:outline-none"
@@ -88,7 +82,7 @@ export const NewPiupiu = ({
           <div className="ml-auto w-28">
             <Button
               loading={loading}
-              disabled={!controlledValue || error}
+              disabled={!value || error}
               type="submit"
               variant="secondary"
             >
