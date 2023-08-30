@@ -28,7 +28,7 @@ export const SignUp = () => {
     <AuthFormLayout>
       <form
         onSubmit={onSubmit}
-        className="flex justify-center w-96 md:w-[min(566px,100%)] gap-4 flex-col"
+        className="flex justify-center w-[min(384px,100%)] md:w-[min(566px,100%)] gap-4 flex-col"
       >
         <h1 className="text-5xl font-bold mb-8">Rolando agora</h1>
         <h2 className="text-2xl font-bold mb-8">Junte-se aos bons</h2>
