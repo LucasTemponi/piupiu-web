@@ -3,6 +3,8 @@ import { ProfilePic } from "../ProfilePic";
 import { Button } from "../Button";
 import sound from "../../assets/E o pintinho piu.mp3";
 import { Textarea } from "../Textarea";
+import { DeletableImage } from "../DeletableImage";
+import { checkForImageLinks } from "../../helpers";
 
 type NewPiupiuProps = {
   user: {
@@ -12,7 +14,7 @@ type NewPiupiuProps = {
   };
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onSubmit?: (e: FormEvent) => void;
+  onSubmit?: (e: FormEvent, textValue: string) => void;
   placeholder?: string;
   variant?: "new" | "reply";
   loading?: boolean;
@@ -28,7 +30,7 @@ export const NewPiupiu = ({
 }: NewPiupiuProps) => {
   const [isActive, setIsActive] = useState(false);
   const [error, setError] = useState(false);
-  const [foundLinks] = useState("");
+  const [foundLinks, setFoundLinks] = useState("");
   const piupiuSound = useMemo(() => new Audio(sound), []);
 
   const placeholderText = useMemo(
@@ -42,15 +44,24 @@ export const NewPiupiu = ({
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length > 240) {
       setError(true);
+      e.target.value = e.target.value.slice(0, 240);
+      onChange?.(e);
       return;
     }
+    e.target.value = checkForImageLinks(e.target.value, (imageUrl) => {
+      if (!foundLinks || foundLinks !== imageUrl) {
+        setFoundLinks(imageUrl);
+      }
+    });
+
     error && setError(false);
     onChange?.(e);
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    onSubmit?.(e);
+    onSubmit?.(e, foundLinks ? `${value} ${foundLinks}` : value || "");
+    setFoundLinks("");
     piupiuSound.play();
   };
 
@@ -63,15 +74,21 @@ export const NewPiupiu = ({
           variant === "new" ? "flex-col" : "items-center"
         }`}
       >
-        <Textarea
-          rows={1}
-          value={value}
-          onClick={() => setIsActive(true)}
-          placeholder={placeholderText}
-          className="w-full text-xl resize-none overflow-y-hidden py-2.5 px-1 caret-primary bg-transparent focus:outline-none"
-          onChange={handleTextChange}
-        />
-        <img className="max-w-full m-auto" src={foundLinks} />
+        <div className="w-full text-xl resize-none overflow-y-hidden py-2.5 px-1 caret-primary bg-transparent focus:outline-none">
+          <Textarea
+            rows={1}
+            value={value}
+            onClick={() => setIsActive(true)}
+            placeholder={placeholderText}
+            onChange={handleTextChange}
+          />
+          {foundLinks && (
+            <DeletableImage
+              onDelete={() => setFoundLinks("")}
+              src={foundLinks}
+            />
+          )}
+        </div>
         {isActive && <hr className="my-3 border-t-[1px] border-[#2f3336] " />}
         <div className="flex">
           {error && (

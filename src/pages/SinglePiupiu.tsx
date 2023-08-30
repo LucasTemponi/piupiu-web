@@ -39,12 +39,12 @@ export const SinglePiupiu = () => {
     }
   }, [postId]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, replyText?: string) => {
     e.preventDefault();
     setReplying(true);
     try {
       await axios.post(`/posts/${postId}/reply`, {
-        message: userReply,
+        message: replyText,
       });
       setuserReply("");
       getReplies();
@@ -83,7 +83,6 @@ export const SinglePiupiu = () => {
         <NewPiupiu
           onChange={(e) => setuserReply(e.target.value)}
           onSubmit={handleSubmit}
-          placeholder="Prove que essa pessoa está errada!"
           user={user}
           variant="reply"
           value={userReply}

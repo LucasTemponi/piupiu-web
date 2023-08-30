@@ -96,12 +96,13 @@ export const Home = () => {
     refreshVariable: piupius,
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, formValue?: string) => {
     e.preventDefault();
+
     setAddingPiupiu(true);
     axios
       .post("/posts", {
-        message: textValue,
+        message: formValue,
       })
       .then(() => {
         setTextValue("");
