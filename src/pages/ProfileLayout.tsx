@@ -85,6 +85,7 @@ export const ProfileLayout = () => {
           </div>
           <div>
             <Username size="xl" variant="column" user={user} />
+            <p className="text-white mt-3 text-sm">{user?.description}</p>
           </div>
         </section>
       </NavTitle>

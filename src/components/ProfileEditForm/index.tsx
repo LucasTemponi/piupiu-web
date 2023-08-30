@@ -12,7 +12,7 @@ type ProfileEditFormProps = {
 
 export const ProfileEditForm = ({ onSubmit, user }: ProfileEditFormProps) => {
   const [imageUrl, setImageUrl] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState(user.description || "");
   const [name, setName] = useState(user.name);
 
   const handleOnSubmit = (e: React.FormEvent) => {
@@ -49,7 +49,6 @@ export const ProfileEditForm = ({ onSubmit, user }: ProfileEditFormProps) => {
         />
         <Textarea
           variant="styled"
-          defaultValue={user.description}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Descrição"

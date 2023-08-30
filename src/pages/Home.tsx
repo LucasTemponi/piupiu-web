@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { NewPiupiu } from "../components/NewPiupiu";
 import { Piu } from "../types/Pius";
 import NavTitle from "../components/NavTitle";
@@ -8,8 +8,7 @@ import { PiupiuList } from "../components/PiupiuList";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { usePagination } from "../hooks/useScroll";
 import { Paginated } from "../types/Paginated";
-
-const piuComponentHeight = 85;
+import { piuComponentHeight } from "../consts";
 
 export const Home = () => {
   const [textValue, setTextValue] = useState("");
@@ -21,6 +20,7 @@ export const Home = () => {
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const topIsShowing = useRef(true);
   const itemsPerPage = Math.ceil(window.screen.height / piuComponentHeight);
+
   const { user } = useAuth();
 
   const {
