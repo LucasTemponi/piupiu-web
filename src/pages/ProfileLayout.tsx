@@ -23,7 +23,7 @@ export const ProfileLayout = () => {
 
   const fetchUser = useCallback(async () => {
     axios
-      .get(`users/${handle}`)
+      .get(routes.profile(handle))
       .then((res) => {
         setUser(res.data.user);
         setUserPosts(res.data.posts);
@@ -43,7 +43,7 @@ export const ProfileLayout = () => {
 
   const handleUpdateSubmit = async (user: Partial<User>) => {
     try {
-      await axios.patch(`/users/${handle}`, user);
+      await axios.patch(routes.profile(handle), user);
       setDialogOpen(false);
       fetchUser();
     } catch (err) {
