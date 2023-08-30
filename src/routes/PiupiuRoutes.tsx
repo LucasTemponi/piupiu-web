@@ -3,7 +3,7 @@ import { routes } from ".";
 import { Login } from "../pages/Login";
 import { SignUp } from "../pages/SignUp";
 import { RequireAuth } from "../components/RequireAuth";
-import { MainLayout } from "../components/MainLayout";
+import { MainLayout } from "../pages/MainLayout";
 import { Home } from "../pages/Home";
 import { SinglePiupiu } from "../pages/SinglePiupiu";
 import { ProfileLayout } from "../pages/ProfileLayout";
@@ -24,14 +24,14 @@ export const PiupiuRoutes = () => {
           <Route element={<MainLayout />}>
             <Route path={routes.home} element={<Home />} />
             <Route path={routes.following} element={<Home />} />
-            <Route path={routes.singlePiupiu} element={<SinglePiupiu />} />
+            <Route path={routes.singlePiupiu()} element={<SinglePiupiu />} />
             <Route element={<ProfileLayout />}>
               <Route
-                path={routes.userLikes}
+                path={routes.userLikes()}
                 element={<Profile postsRoute="likes" />}
               />
               <Route
-                path={routes.profile}
+                path={routes.profile()}
                 element={<Profile postsRoute="posts" />}
               />
               <Route

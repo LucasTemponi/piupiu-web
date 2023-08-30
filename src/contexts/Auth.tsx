@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { User } from "../types/Users";
 import { useNavigate } from "react-router-dom";
+import { routes } from "../routes";
 
 type AuthContextType = {
   user: User | null;
@@ -45,7 +46,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(err);
     } finally {
       setSigningIn(false);
-      navigate("/home");
+      navigate(routes.home);
     }
   };
 
@@ -60,7 +61,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     (error) => {
       if (error.response.data.errors.includes("expired")) {
         signOut();
-        navigate("/login");
+        navigate(routes.login);
       }
     }
   );

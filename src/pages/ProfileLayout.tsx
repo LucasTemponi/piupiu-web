@@ -10,6 +10,7 @@ import { useAuth } from "../contexts/Auth";
 import { BsFillPencilFill } from "react-icons/bs";
 import { ProfileEditForm } from "../components/ProfileEditForm";
 import { Dialog } from "../components/Dialog";
+import { routes } from "../routes";
 
 export const ProfileLayout = () => {
   const [user, setUser] = useState<User>();
@@ -28,7 +29,7 @@ export const ProfileLayout = () => {
         setUserPosts(res.data.posts);
       })
       .catch(() => {
-        navigate("/home");
+        navigate(routes.home);
       });
   }, [handle]);
 
@@ -59,8 +60,8 @@ export const ProfileLayout = () => {
       <NavTitle
         position="relative"
         navOptions={[
-          { title: "Perfil", path: `/${user?.handle}` },
-          { title: "Curtidas", path: `/${user?.handle}/likes` },
+          { title: "Perfil", path: routes.profile(user?.handle) },
+          { title: "Curtidas", path: routes.userLikes(user?.handle) },
         ]}
       >
         <section className="h-48 w-full bg-zinc-700" />

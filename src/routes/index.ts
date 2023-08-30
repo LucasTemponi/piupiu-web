@@ -1,9 +1,9 @@
 export const routes = {
   home: "/home",
-  following: "/following",
+  following: "/stalking",
   login: "",
   signup: "/signup",
-  singlePiupiu: "/piu/:id",
-  profile: "/:handle",
-  userLikes: "/:handle/likes",
+  singlePiupiu: (id: string = ":id") => `/piu/${id}`,
+  profile: (handle: string = ":handle") => `/${handle}`,
+  userLikes: (handle: string = ":handle") => `/${handle}/likes`,
 };

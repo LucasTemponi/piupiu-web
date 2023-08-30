@@ -16,7 +16,7 @@ type NewPiupiuProps = {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSubmit?: (e: FormEvent, textValue: string) => void;
   placeholder?: string;
-  variant?: "new" | "reply";
+  variant?: "new" | "reply" | "borderless";
   loading?: boolean;
 };
 export const NewPiupiu = ({
@@ -35,9 +35,9 @@ export const NewPiupiu = ({
 
   const placeholderText = useMemo(
     () =>
-      placeholder || variant === "new"
-        ? "O que tá pegando?!"
-        : "Prove que essa pessoa está errada!",
+      placeholder || variant === "reply"
+        ? "Prove que essa pessoa está errada!"
+        : "O que tá pegando?!",
     [placeholder, variant]
   );
 
@@ -66,7 +66,13 @@ export const NewPiupiu = ({
   };
 
   return (
-    <article className="flex border-[#2f3336] border-t-0 resize-none overflow-y-hidden select-none w-full h-min px-4 py-2 border-[1px] focus:outline-none ">
+    <article
+      className={`flex resize-none overflow-y-hidden ${
+        variant === "borderless"
+          ? ""
+          : " border-[#2f3336] border-t-0  border-[1px]"
+      } select-none w-full h-min px-4 py-2 focus:outline-none`}
+    >
       <ProfilePic userName={user.name} image={user.image_url} />
       <form
         onSubmit={handleSubmit}

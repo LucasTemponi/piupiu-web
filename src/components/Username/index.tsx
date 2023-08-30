@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/Users";
 import { LuVerified } from "react-icons/lu";
+import { routes } from "../../routes";
 
 type UsernameProps = {
   user?: User;
@@ -24,7 +25,7 @@ export const Username = ({
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.stopPropagation();
-    navigate(`/${user?.handle}`);
+    navigate(routes.profile(user?.handle));
   };
 
   return (

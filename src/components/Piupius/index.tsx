@@ -9,6 +9,7 @@ import NewPiupiu from "../NewPiupiu";
 import { useAuth } from "../../contexts/Auth";
 import { forwardRef } from "react";
 import { checkForImageLinks } from "../../helpers";
+import { routes } from "../../routes";
 
 type PiupiuProps = {
   id: string;
@@ -36,7 +37,6 @@ export const Piupiu = forwardRef(
 
     const handleLike = useCallback(async () => {
       setLiked(!liked);
-      liked ? setLikesTotal(likesTotal - 1) : setLikesTotal(likesTotal + 1);
       clearTimeout(debounceTimer.current);
       debounceTimer.current = setTimeout(async () => {
         if (liked !== reactions.like?.active) return;
@@ -52,8 +52,8 @@ export const Piupiu = forwardRef(
         } finally {
           onChange?.();
         }
-      }, 1000);
-    }, [id, liked, onChange, debounceTimer.current]);
+      }, 250);
+    }, [id, liked, onChange, reactions.like, debounceTimer.current]);
 
     const handleSubmit = async (e: React.FormEvent, submitingText?: string) => {
       e.preventDefault();
@@ -72,7 +72,7 @@ export const Piupiu = forwardRef(
     };
 
     const handleClick = () => {
-      onClick ? onClick() : navigate(`/piu/${id}`);
+      onClick ? onClick() : navigate(routes.singlePiupiu(id));
     };
     const reactionProps = useMemo(() => {
       return {

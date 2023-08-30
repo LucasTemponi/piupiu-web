@@ -1,10 +1,11 @@
-import { SideBar } from "../SideBar";
-import { SideCard } from "../Sidecard";
-import Button from "../Button";
-import { SideList } from "../SideList";
+import { SideBar } from "../components/SideBar";
+import { SideCard } from "../components/Sidecard";
+import Button from "../components/Button";
+import { SideList } from "../components/SideList";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+
 export const MainLayout = () => {
   const { data: newUsers, isLoading } = useQuery({
     queryKey: ["latest-users"],

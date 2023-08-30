@@ -9,6 +9,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { usePagination } from "../hooks/useScroll";
 import { Paginated } from "../types/Paginated";
 import { piuComponentHeight } from "../consts";
+import { routes } from "../routes";
 
 export const Home = () => {
   const [textValue, setTextValue] = useState("");
@@ -98,7 +99,6 @@ export const Home = () => {
 
   const handleSubmit = async (e: React.FormEvent, formValue?: string) => {
     e.preventDefault();
-
     setAddingPiupiu(true);
     axios
       .post("/posts", {
@@ -113,15 +113,13 @@ export const Home = () => {
       });
   };
 
-  console.log(isFetchingNextPage);
-
   return (
     <div ref={topRef} className="relative">
       <NavTitle
         position="sticky"
         navOptions={[
-          { title: "Para você", path: "/home" },
-          { title: "Perseguindo", path: "/following" },
+          { title: "Para você", path: routes.home },
+          { title: "Perseguindo", path: routes.following },
         ]}
         refreshButton={{
           newPosts: newData,

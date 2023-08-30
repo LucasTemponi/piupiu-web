@@ -4,6 +4,7 @@ import { Input } from "../components/Input";
 import { AuthFormLayout } from "../components/AuthFormLayout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { routes } from "../routes";
 
 export const SignUp = () => {
   const [name, setName] = useState("");
@@ -17,7 +18,7 @@ export const SignUp = () => {
     setSigningUp(true);
     try {
       await axios.post("/signup", { name, handle, password });
-      navigate("/");
+      navigate(routes.login);
     } catch (err) {
       console.log(err);
     }
