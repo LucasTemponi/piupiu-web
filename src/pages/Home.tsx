@@ -27,7 +27,7 @@ export const Home = () => {
     data,
     fetchNextPage,
     hasNextPage,
-    isLoading,
+    isFetchingNextPage,
     isInitialLoading,
     refetch,
   } = useInfiniteQuery<Paginated<Piu>>({
@@ -113,6 +113,8 @@ export const Home = () => {
       });
   };
 
+  console.log(isFetchingNextPage);
+
   return (
     <div ref={topRef} className="relative">
       <NavTitle
@@ -143,7 +145,7 @@ export const Home = () => {
         initialLoading={isInitialLoading}
         topRef={topRef}
         bottomRef={bottomRef}
-        loading={isLoading}
+        loading={isFetchingNextPage}
         piupius={piupius}
         onChange={refetch}
       />

@@ -4,7 +4,6 @@ export const checkForImageLinks = (
   text?: string,
   applyMatch?: (match: string) => void
 ) => {
-  console.log(text);
   if (!text) return text || "";
   const match = text.match(imageUrlRegex);
   if (!match) return text;

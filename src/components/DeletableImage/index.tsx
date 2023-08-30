@@ -9,9 +9,7 @@ export const DeletableImage = ({ onDelete, ...props }: DeletableImageProps) => {
   const handleDelete = (e: KeyboardEvent) => {
     if (!imageRef.current) return;
     const imageSelected = window.getSelection()?.containsNode(imageRef.current);
-    console.log(imageSelected);
     if ((e.key === "Delete" || e.key === "Backspace") && imageSelected) {
-      console.log("ue?");
       onDelete?.();
     }
   };

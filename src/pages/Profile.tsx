@@ -14,7 +14,6 @@ export const Profile = ({ postsRoute }: ProfileProps) => {
     queryKey: [`${handle}-${postsRoute}`],
     queryFn: async () => {
       return axios.get(`users/${handle}/${postsRoute}`).then((res) => {
-        console.log("Meu jesus: ", res.data);
         return res.data;
       });
     },
