@@ -4,7 +4,7 @@ export const AuthFormLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="w-full items-center md:w-1/2 md:h-full h-16 flex justify-start md:justify-center">
         <img className="ml-8 md:w-96 h-full md:h-96 w-16" src="/logo.png" />
       </div>
-      <div className="w-full md:w-1/2 p-8 flex flex-col justify-center ">
+      <div className="w-full md:w-1/2 p-8 flex flex-col items-center justify-center ">
         {children}
       </div>
     </div>
