@@ -29,19 +29,19 @@ export const CompletePiupiu = ({
   }, [author]);
 
   return (
-    <article className="flex flex-col select-none border-y-0 w-full h-min px-4 py-2 border-[#2f3336] border-[1px] ">
+    <article className="flex flex-col select-none border-y-0 w-full h-min px-4 py-2 border-border-light dark:border-border-dark border-[1px] ">
       <header className="w-full flex gap-2 mb-3 ">
         <ProfilePic image={author?.image_url} userName={author?.name || ""} />
         <Username variant="column" user={author} />
       </header>
-      <main className="mt-1 break-words pr-8 text-left mb-1">
+      <main className="mt-1 text-text-light dark:text-white break-words pr-8 text-left mb-1">
         {checkForImageLinks(body, (link) => {
           !foundLinks && setFoundLinks(link);
         })}
         <img className="w-full my-2" src={foundLinks} />
       </main>
       <span>{timestamp}</span>
-      <div className="flex border-b-[1px] py-3 border-[#2f3336]">
+      <div className="flex border-b-[1px] py-3 border-border-light dark:border-border-dark">
         <ReactionsTextBar
           reactions={[
             {
@@ -53,7 +53,7 @@ export const CompletePiupiu = ({
           ]}
         />
       </div>
-      <div className="flex justify-center border-b-[1px] py-3 border-[#2f3336]">
+      <div className="flex justify-center border-b-[1px] py-3 border-border-light dark:border-border-dark">
         <ReactionsBar type="simplified" {...reactions} />
       </div>
       {children}

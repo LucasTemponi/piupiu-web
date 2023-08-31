@@ -22,8 +22,10 @@ export const MainLayout = () => {
       </div>
       <div className="ml-4 mt-12 w-72 sticky top-12 lg:w-96 h-min rounded-md hidden ws:block">
         <SideCard>
-          <h1 className="text-xl font-bold mb-3">Assine o Premium</h1>
-          <p className="mb-2">
+          <h1 className="text-xl text-text-light dark:text-white font-bold mb-3">
+            Assine o Premium
+          </h1>
+          <p className="mb-2 text-text-light dark:text-white">
             Pague por uma bolinha colorida e me deixe rico.
           </p>
           <div className="w-min">

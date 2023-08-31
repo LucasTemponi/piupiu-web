@@ -9,9 +9,10 @@ type ButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const variantStyles: Record<Required<ButtonProps>["variant"], string> = {
-  primary: "bg-primary-200 hover:bg-primary-300 text-secondary-300",
+  primary: "bg-primary-100 hover:bg-primary-200 text-secondary-300",
   secondary: "bg-secondary-200 hover:bg-secondary-300 text-white",
-  boring: "bg-zinc-300 hover:bg-zinc-200 text-black",
+  boring:
+    "bg-zinc-800 text-white dark:text-text-light dark:bg-zinc-300 hover:bg-zinc-200 text-black",
 };
 
 const thicknessStyles: Record<Required<ButtonProps>["thickness"], string> = {

@@ -6,7 +6,9 @@ export const ReactionsTextBar = ({ reactions }: ReactTextBarProps) => {
     <div className="flex gap-4">
       {reactions.map((reaction) => (
         <div key={reaction.title}>
-          <span className="text-white font-bold">{reaction.total}</span>
+          <span className="text-text-light dark:text-white font-bold">
+            {reaction.total}
+          </span>
           <span className="text-zinc-600 text-sm ml-1">{reaction.title}</span>
         </div>
       ))}

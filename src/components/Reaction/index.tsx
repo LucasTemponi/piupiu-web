@@ -11,16 +11,28 @@ const variantColors = (
   active?: boolean
 ): Record<ReactionProps["variant"], { text: string; glow: string }> => ({
   primary: {
-    text: `${active ? "text-primary-100" : ""} hover:text-primary-100`,
-    glow: "group-hover:bg-primary-100",
+    text: `${
+      active
+        ? "text-primary-300 dark:text-primary-100"
+        : "text-text-light dark:text-white"
+    } hover:text-primary-300 hover:dark:text-primary-100`,
+    glow: "group-hover:bg-primary-300 group-hover:dark:bg-primary-100 ",
   },
   secondary: {
-    text: `${active ? "text-tertiary-100" : ""} hover:text-tertiary-100`,
-    glow: "group-hover:bg-tertiary-100",
+    text: `${
+      active
+        ? "text-tertiary-300 dark:text-tertiary-100"
+        : "text-text-light dark:text-white"
+    } hover:text-tertiary-300`,
+    glow: "group-hover:bg-tertiary-300 group-hover:dark:bg-tertiary-100",
   },
   tertiary: {
-    text: `${active ? "text-quaternary-100" : ""} hover:text-quaternary-100`,
-    glow: "group-hover:bg-quaternary-100",
+    text: `${
+      active
+        ? "text-quaternary-300 dark:text-quaternary-100"
+        : "text-text-light dark:text-white"
+    } hover:text-quaternary-300`,
+    glow: "group-hover:bg-quaternary-300 group-hover:dark:bg-quaternary-300",
   },
 });
 

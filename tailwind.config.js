@@ -22,9 +22,16 @@ module.exports = {
           'quaternary-300': '#c908c8',
           'quaternary-200': '#b007af',
           'semitransparent-dark':'rgba(0,0,0,0.65)',
+          'semitransparent-light':'rgba(255,255,255,0.65)',
+          'border-dark':'#2f3336',
+          'border-light':'rgb(239, 243, 244)',
+          'hover-dark':'rgba(255,255,255,0.03)',
+          'hover-light':'rgba(0,0,0,0.03)',
+          'text-light':'rgba(15,20,25,1.00)'
         },
        boxShadow: {
-        'cs': 'rgba(255, 255, 255, 0.2) 0px 0px 15px, rgba(255, 255, 255, 0.15) 0px 0px 3px 1px',
+        'cs-dark': 'rgba(255, 255, 255, 0.2) 0px 0px 15px, rgba(255, 255, 255, 0.15) 0px 0px 3px 1px',
+        'cs-light':'rgba(101, 119, 134, 0.2) 0px 0px 15px, rgba(101, 119, 134, 0.15) 0px 0px 3px 1px'
        }
       },
       screens:{

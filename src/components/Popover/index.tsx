@@ -17,10 +17,10 @@ export const Popover = ({ children, open, onChange }: PopoverProps) => {
       ref={popoverRef}
       className="absolute bottom-16 min-w-full flex items-center flex-col"
     >
-      <div className="shadow-cs rounded-xl py-3 w-full flex flex-col">
+      <div className="shadow-cs-light dark:shadow-cs-dark rounded-xl py-3 w-full flex flex-col">
         {children}
       </div>
-      <BiSolidDownArrow className="text-xs -mt-[3px] text-black" />
+      <BiSolidDownArrow className="text-xs -mt-[3px] text-white dark:text-black" />
     </div>
   ) : null;
 };

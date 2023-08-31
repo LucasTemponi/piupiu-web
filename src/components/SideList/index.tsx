@@ -18,7 +18,9 @@ export const SideList = ({ users, loading }: SideListProps) => {
         </div>
       ) : (
         <>
-          <h1 className="text-xl font-bold mb-3">Novas pessoas</h1>
+          <h1 className="text-xl text-text-light dark:text-white font-bold mb-3">
+            Novas pessoas
+          </h1>
           <ul>
             {users?.map((item) => {
               return (

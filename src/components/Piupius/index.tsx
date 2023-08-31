@@ -129,12 +129,12 @@ export const Piupiu = forwardRef(
           <article
             ref={ref as any}
             onClick={handleClick}
-            className="flex cursor-pointer hover:bg-[rgba(255,255,255,0.03)] select-none border-t-0 w-full px-4 py-2 border-[#2f3336] border-[1px] "
+            className="flex cursor-pointer hover:bg-hover-light hover:dark:bg-hover-dark select-none border-t-0 w-full px-4 py-2 border-border-light dark:border-border-dark border-[1px] "
           >
             <ProfilePic image={author.image_url} userName={author.name} />
             <div className="px-2 w-full">
               <Username user={author} />
-              <main className="mt-1 break-words pr-8 text-left mb-1">
+              <main className="mt-1 break-words text-text-light dark:text-white pr-8 text-left mb-1">
                 {checkForImageLinks(body, (link) => {
                   !foundLinks && setFoundLinks(link);
                 })}

@@ -31,8 +31,12 @@ export const SignUp = () => {
         onSubmit={onSubmit}
         className="flex justify-center w-[min(384px,100%)] md:w-[min(566px,100%)] gap-4 flex-col"
       >
-        <h1 className="text-5xl font-bold mb-8">Rolando agora</h1>
-        <h2 className="text-2xl font-bold mb-8">Junte-se aos bons</h2>
+        <h1 className="text-5xl text-text-light dark:text-white font-bold mb-8">
+          Rolando agora
+        </h1>
+        <h2 className="text-2xl text-text-light dark:text-white font-bold mb-8">
+          Junte-se aos bons
+        </h2>
         <Input
           placeholder="Nome"
           value={name}

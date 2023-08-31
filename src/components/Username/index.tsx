@@ -38,7 +38,9 @@ export const Username = ({
       <h1
         className={`${
           size === "xl" ? "text-xl " : "text-sm"
-        } font-bold flex justify-start ${clickable ? "hover:underline" : ""} `}
+        } font-bold text-text-light dark:text-white flex justify-start ${
+          clickable ? "hover:underline" : ""
+        } `}
       >
         <span onClick={clickable ? handleUserClick : undefined}>
           {user?.name}
@@ -46,12 +48,16 @@ export const Username = ({
         {user?.verified && showVerified && (
           <LuVerified
             className={`ml-1 my-auto ${
-              size === "xl" ? "text-2xl" : "text-xl"
-            } text-black fill-primary-100`}
+              size === "xl" ? "text-2xl" : "text-2xl dark:text-xl"
+            } text-white fill-secondary-100 dark:text-black dark:fill-primary-100 `}
           />
         )}
       </h1>
-      <h6 className={`${size === "xl" ? "text-sm " : "text-xs"} text-zinc-400`}>
+      <h6
+        className={`${
+          size === "xl" ? "text-sm " : "text-xs"
+        } text-zinc-500 items-center flex dark:text-zinc-400`}
+      >
         @{user?.handle}
       </h6>
     </header>

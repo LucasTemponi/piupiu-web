@@ -21,13 +21,13 @@ export const SessionController = ({
     <button
       onClick={() => setIsActive(!isActive)}
       className={`relative hidden xl:flex gap-4 cursor-pointer p-3 rounded-full ${
-        isActive ? "" : "hover:bg-zinc-900"
+        isActive ? "" : "hover:bg-zinc-200 dark:hover:bg-zinc-900"
       } items-center`}
     >
       <Popover onChange={setIsActive} open={isActive}>
         {options.map((item) => (
           <span
-            className="py-2 px-4 hover:bg-zinc-900 flex justify-start"
+            className="py-2 px-4 text-text-light dark:text-white hover:bg-zinc-200 dark:hover:bg-zinc-900 flex justify-start"
             key={item.text}
             onClick={item.onClick}
           >
@@ -43,7 +43,9 @@ export const SessionController = ({
         variant="column"
         user={user}
       />
-      <span className="text-2xl ml-auto self-start ">...</span>
+      <span className="text-2xl text-text-light dark:text-white ml-auto self-start ">
+        ...
+      </span>
     </button>
   );
 };

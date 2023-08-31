@@ -68,7 +68,7 @@ export const ProfileLayout = () => {
           { title: "Curtidas", path: routes.userLikes(user?.handle) },
         ]}
       >
-        <section className="h-48 w-full bg-zinc-700" />
+        <section className="h-48 w-full bg-slate-300 dark:bg-zinc-700" />
         <section className="relative mb-2 select-none px-3 w-full">
           <div className="min-h-[5rem] flex justify-end w-full">
             <div className="absolute -top-16 left-4 ">
@@ -82,7 +82,7 @@ export const ProfileLayout = () => {
             {user?.handle === loggedUser?.handle && (
               <div
                 onClick={handleDialogClick}
-                className="absolute cursor-pointer rounded-full bg-zinc-950 hover:bg-zinc-900 p-6 right-4 top-4"
+                className="absolute cursor-pointer rounded-full bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-900 p-6 right-4 top-4"
               >
                 <BsFillPencilFill />
               </div>
@@ -90,7 +90,9 @@ export const ProfileLayout = () => {
           </div>
           <div>
             <Username size="xl" variant="column" user={user} />
-            <p className="text-white mt-3 text-sm">{user?.description}</p>
+            <p className="text-text-light dark:text-white mt-3 text-sm">
+              {user?.description}
+            </p>
           </div>
         </section>
       </NavTitle>

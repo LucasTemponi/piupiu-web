@@ -70,7 +70,7 @@ export const NewPiupiu = ({
       className={`flex resize-none overflow-y-hidden ${
         variant === "borderless"
           ? ""
-          : " border-[#2f3336] border-t-0  border-[1px]"
+          : " border-border-light dark:border-border-dark border-t-0  border-[1px]"
       } select-none w-full h-min px-4 py-2 focus:outline-none`}
     >
       <ProfilePic userName={user.name} image={user.image_url} />
@@ -80,7 +80,7 @@ export const NewPiupiu = ({
           variant === "new" ? "flex-col" : "items-center"
         }`}
       >
-        <div className="w-full text-xl resize-none overflow-y-hidden py-2.5 px-1 caret-primary bg-transparent focus:outline-none">
+        <div className="w-full  text-xl resize-none overflow-y-hidden py-2.5 px-1 caret-primary bg-transparent focus:outline-none">
           <Textarea
             rows={1}
             value={value}
@@ -95,7 +95,9 @@ export const NewPiupiu = ({
             />
           )}
         </div>
-        {isActive && <hr className="my-3 border-t-[1px] border-[#2f3336] " />}
+        {isActive && (
+          <hr className="my-3 border-t-[1px] border-border-light dark:border-border-dark " />
+        )}
         <div className="flex">
           {error && (
             <span className="text-red-500 text-sm w-50">
