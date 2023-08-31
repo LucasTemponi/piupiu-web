@@ -21,6 +21,8 @@ export const backendRoutes = {
     post: (id: string = ":id") => `/posts/${id}`,
     // v Retorna Piu[]
     replies: (id: string = ":id") => `/posts/${id}/replies`,
+    // v Retorna Piu[]
+    reply: (id: string = ":id") => `/posts/${id}/reply`,
     // v Retorna Piu
     like: (id: string = ":id") => `/posts/${id}/like`,
   },

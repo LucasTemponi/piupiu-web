@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CompletePiupiu } from "../components/CompletePiupiu";
 import { NavHeader } from "../components/NavHeader";
 import { Piu } from "../types/Pius";
@@ -11,15 +11,17 @@ import { backendRoutes } from "../routes";
 
 export const SinglePiupiu = () => {
   const [replies, setReplies] = useState<Piu[]>();
+  const [liked, setLiked] = useState(false);
   const [post, setPost] = useState<Piu>();
   const [userReply, setuserReply] = useState("");
   const [replying, setReplying] = useState(false);
   const { id: postId } = useParams();
   const { user } = useAuth();
+  const debounceTimer = useRef<number>();
 
   const getReplies = useCallback(async () => {
     try {
-      const res = await axios.get(`/posts/${postId}/replies`);
+      const res = await axios.get(backendRoutes.singlePiupiu.replies(postId));
       setReplies(res.data.replies);
     } catch (err) {
       console.log(err);
@@ -44,7 +46,7 @@ export const SinglePiupiu = () => {
     e.preventDefault();
     setReplying(true);
     try {
-      await axios.post(`/posts/${postId}/reply`, {
+      await axios.post(backendRoutes.singlePiupiu.reply(postId), {
         message: replyText,
       });
       setuserReply("");
@@ -55,6 +57,24 @@ export const SinglePiupiu = () => {
 
     setReplying(false);
   };
+
+  const handleLike = useCallback(async () => {
+    setLiked(!liked);
+    clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(async () => {
+      if (liked !== post?.liked) return;
+      try {
+        if (!liked) {
+          await axios.post(backendRoutes.singlePiupiu.like(postId));
+        } else {
+          await axios.delete(backendRoutes.singlePiupiu.like(postId));
+        }
+      } catch (err) {
+        setLiked(!liked);
+        console.log(err);
+      }
+    }, 250);
+  }, [postId, liked, post, debounceTimer.current]);
 
   return (
     <>
@@ -74,8 +94,8 @@ export const SinglePiupiu = () => {
             },
             like: {
               total: post?.likes?.total,
-              active: post?.liked,
-              onClick: () => {},
+              active: liked,
+              onClick: handleLike,
             },
           },
         }}
