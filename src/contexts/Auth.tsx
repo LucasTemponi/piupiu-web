@@ -2,7 +2,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { User } from "../types/Users";
 import { useNavigate } from "react-router-dom";
-import { routes } from "../routes";
+import { backendRoutes, routes } from "../routes";
 
 type AuthContextType = {
   user: User | null;
@@ -37,7 +37,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const {
         data: { token, user },
-      } = await axios.post("/login", { handle, password });
+      } = await axios.post(backendRoutes.login, { handle, password });
       axios.defaults.headers.common["Authorization"] = token;
       setUser(user);
       localStorage.setItem("token", token);

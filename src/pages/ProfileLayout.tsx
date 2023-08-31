@@ -10,7 +10,7 @@ import { useAuth } from "../contexts/Auth";
 import { BsFillPencilFill } from "react-icons/bs";
 import { ProfileEditForm } from "../components/ProfileEditForm";
 import { Dialog } from "../components/Dialog";
-import { routes } from "../routes";
+import { backendRoutes, routes } from "../routes";
 
 export const ProfileLayout = () => {
   const [user, setUser] = useState<User>();
@@ -23,7 +23,7 @@ export const ProfileLayout = () => {
 
   const fetchUser = useCallback(async () => {
     axios
-      .get(routes.profile(handle))
+      .get(backendRoutes.profile(handle))
       .then((res) => {
         setUser(res.data.user);
         setUserPosts(res.data.posts);
@@ -43,7 +43,7 @@ export const ProfileLayout = () => {
 
   const handleUpdateSubmit = async (user: Partial<User>) => {
     try {
-      await axios.patch(routes.profile(handle), user);
+      await axios.patch(backendRoutes.profile(handle), user);
       setDialogOpen(false);
       fetchUser();
     } catch (err) {

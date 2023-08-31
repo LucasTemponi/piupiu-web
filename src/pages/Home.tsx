@@ -9,7 +9,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { usePagination } from "../hooks/useScroll";
 import { Paginated } from "../types/Paginated";
 import { piuComponentHeight } from "../consts";
-import { routes } from "../routes";
+import { backendRoutes, routes } from "../routes";
 
 export const Home = () => {
   const [textValue, setTextValue] = useState("");
@@ -35,7 +35,7 @@ export const Home = () => {
     queryKey: ["pius"],
     queryFn: async ({ pageParam = 1 }) => {
       return axios
-        .get(`/pius?page=${pageParam}&per_page=${itemsPerPage}`)
+        .get(`${backendRoutes.pius}?page=${pageParam}&per_page=${itemsPerPage}`)
         .then((res) => res?.data);
     },
     getNextPageParam: (lastPage) =>

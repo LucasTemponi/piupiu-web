@@ -9,7 +9,7 @@ import NewPiupiu from "../NewPiupiu";
 import { useAuth } from "../../contexts/Auth";
 import { forwardRef } from "react";
 import { checkForImageLinks } from "../../helpers";
-import { routes } from "../../routes";
+import { backendRoutes, routes } from "../../routes";
 
 type PiupiuProps = {
   id: string;
@@ -42,9 +42,9 @@ export const Piupiu = forwardRef(
         if (liked !== reactions.like?.active) return;
         try {
           if (!liked) {
-            await axios.post(`/posts/${id}/like`);
+            await axios.post(backendRoutes.singlePiupiu.like(id));
           } else {
-            await axios.delete(`/posts/${id}/like`);
+            await axios.delete(backendRoutes.singlePiupiu.like(id));
           }
         } catch (err) {
           setLiked(!liked);

@@ -5,11 +5,12 @@ import { SideList } from "../components/SideList";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { backendRoutes } from "../routes";
 
 export const MainLayout = () => {
   const { data: newUsers, isLoading } = useQuery({
     queryKey: ["latest-users"],
-    queryFn: () => axios.get("/users/latest").then((res) => res.data),
+    queryFn: () => axios.get(backendRoutes.latestUsers).then((res) => res.data),
     staleTime: 290000,
   });
 

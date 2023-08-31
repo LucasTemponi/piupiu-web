@@ -7,6 +7,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/Auth";
 import { PiupiuList } from "../components/PiupiuList";
+import { backendRoutes } from "../routes";
 
 export const SinglePiupiu = () => {
   const [replies, setReplies] = useState<Piu[]>();
@@ -28,7 +29,7 @@ export const SinglePiupiu = () => {
   useEffect(() => {
     if (postId) {
       axios
-        .get(`/posts/${postId}`)
+        .get(backendRoutes.singlePiupiu.post(postId))
         .then((res) => {
           setPost(res.data);
           getReplies();
