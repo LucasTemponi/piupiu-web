@@ -6,6 +6,7 @@ import { backendRoutes, routes } from "../routes";
 
 type AuthContextType = {
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   signIn: (email: string, password: string) => void;
   signOut: () => void;
   signingIn: boolean;
@@ -71,6 +72,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         signedIn: Boolean(user),
         user,
+        setUser,
         signIn,
         signOut,
         signingIn,

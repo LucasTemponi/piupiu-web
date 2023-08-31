@@ -15,7 +15,7 @@ import { backendRoutes, routes } from "../routes";
 export const ProfileLayout = () => {
   const [user, setUser] = useState<User>();
   const [userPosts, setUserPosts] = useState<number>();
-  const { user: loggedUser } = useAuth();
+  const { user: loggedUser, setUser: setLoggedUser } = useAuth();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { handle } = useParams();
@@ -43,7 +43,11 @@ export const ProfileLayout = () => {
 
   const handleUpdateSubmit = async (user: Partial<User>) => {
     try {
-      await axios.patch(backendRoutes.profile(handle), user);
+      const newUserData = await axios.patch(
+        backendRoutes.profile(handle),
+        user
+      );
+      setLoggedUser(newUserData.data);
       setDialogOpen(false);
       fetchUser();
     } catch (err) {
