@@ -35,6 +35,7 @@ export const SinglePiupiu = () => {
         .then((res) => {
           setPost(res.data);
           getReplies();
+          setLiked(res.data.liked);
         })
         .catch((err) => {
           console.log(err);
