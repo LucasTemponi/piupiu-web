@@ -6,8 +6,9 @@ import { SideListUserItem } from "../SideListUserItem";
 type SideListProps = {
   users?: User[];
   loading?: boolean;
+  refetch?: () => void;
 };
-export const SideList = ({ users, loading }: SideListProps) => {
+export const SideList = ({ users, loading, refetch }: SideListProps) => {
   return (
     <SideCard>
       {loading ? (
@@ -21,7 +22,13 @@ export const SideList = ({ users, loading }: SideListProps) => {
           </h1>
           <ul>
             {users?.map((item) => {
-              return <SideListUserItem key={item.handle} user={item} />;
+              return (
+                <SideListUserItem
+                  refetch={refetch}
+                  key={item.handle}
+                  user={item}
+                />
+              );
             })}
           </ul>
         </>
