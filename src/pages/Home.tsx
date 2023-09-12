@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { NewPiupiu } from "../components/NewPiupiu";
 import { Piu } from "../types/Pius";
 import NavTitle from "../components/NavTitle";
@@ -11,7 +11,18 @@ import { Paginated } from "../types/Paginated";
 import { piuComponentHeight } from "../consts";
 import { backendRoutes, routes } from "../routes";
 
-export const Home = () => {
+const getPius = async (pageParam = 1, itemsPerPage = 10) => {
+  return axios
+    .get(`${backendRoutes.pius}?page=${pageParam}&per_page=${itemsPerPage}`)
+    .then((res) => res?.data);
+};
+const getFollowedPius = async (pageParam = 1, itemsPerPage = 10) => {
+  return axios
+    .get(`${backendRoutes.stalking}?page=${pageParam}&per_page=${itemsPerPage}`)
+    .then((res) => res?.data);
+};
+
+export const Home = ({ pius }: { pius: "main" | "stalking" }) => {
   const [textValue, setTextValue] = useState("");
   const [piupius, setPiupius] = useState<Piu[] | undefined>();
   const [newData, setNewData] = useState<Piu[] | undefined>();
@@ -24,6 +35,13 @@ export const Home = () => {
 
   const { user } = useAuth();
 
+  const getPiusFn: Record<
+    "main" | "stalking",
+    (pageParam?: number, itemsPerPage?: number) => Promise<Paginated<Piu>>
+  > = {
+    main: getPius,
+    stalking: getFollowedPius,
+  };
   const {
     data,
     fetchNextPage,
@@ -32,12 +50,8 @@ export const Home = () => {
     isInitialLoading,
     refetch,
   } = useInfiniteQuery<Paginated<Piu>>({
-    queryKey: ["pius"],
-    queryFn: async ({ pageParam = 1 }) => {
-      return axios
-        .get(`${backendRoutes.pius}?page=${pageParam}&per_page=${itemsPerPage}`)
-        .then((res) => res?.data);
-    },
+    queryKey: [pius],
+    queryFn: ({ pageParam = 1 }) => getPiusFn[pius](pageParam, itemsPerPage),
     getNextPageParam: (lastPage) =>
       lastPage.currentPage < lastPage.totalPages
         ? lastPage.currentPage + 1
@@ -119,7 +133,7 @@ export const Home = () => {
         position="sticky"
         navOptions={[
           { title: "Para você", path: routes.home },
-          { title: "Perseguindo", path: routes.following },
+          { title: "Perseguindo", path: routes.stalking },
         ]}
         refreshButton={{
           newPosts: newData,

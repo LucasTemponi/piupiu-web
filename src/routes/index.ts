@@ -1,6 +1,6 @@
 export const routes = {
   home: "/home",
-  following: "/stalking",
+  stalking: "/stalking",
   login: "/",
   signup: "/signup",
   singlePiupiu: (id: string = ":id") => `/piu/${id}`,
@@ -15,6 +15,7 @@ export const backendRoutes = {
   signup: "/signup",
   // v Retorna Piu[] aceita page e per_page como query params
   pius: "/pius",
+  stalking: "/pius/stalking",
   // v Retorna Piu
   singlePiupiu: {
     // v Retorna Piu
@@ -33,6 +34,7 @@ export const backendRoutes = {
     posts: (handle: string = ":handle") => `/users/${handle}/posts`,
     // v Retorna Piu[]
     likes: (handle: string = ":handle") => `/users/${handle}/likes`,
+    stalk: (handle: string = ":handle") => `/users/${handle}/stalk`,
   },
   latestUsers: "/users/latest",
 };

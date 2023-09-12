@@ -1,9 +1,7 @@
 import { User } from "../../types/Users";
-import { Button } from "../Button";
 import { CircularSpinner } from "../CircularSpinner";
-import { ProfilePic } from "../ProfilePic";
 import { SideCard } from "../Sidecard";
-import { Username } from "../Username";
+import { SideListUserItem } from "../SideListUserItem";
 
 type SideListProps = {
   users?: User[];
@@ -23,22 +21,7 @@ export const SideList = ({ users, loading }: SideListProps) => {
           </h1>
           <ul>
             {users?.map((item) => {
-              return (
-                <li
-                  key={item.handle}
-                  className="flex items-center mb-6 last:mb-0"
-                >
-                  <ProfilePic userName={item.name} image={item.image_url} />
-                  <div className="ml-2">
-                    <Username variant="column" user={item} />
-                  </div>
-                  <div className="ml-auto w-min">
-                    <Button variant="boring" thickness="thin">
-                      Perseguir
-                    </Button>
-                  </div>
-                </li>
-              );
+              return <SideListUserItem key={item.handle} user={item} />;
             })}
           </ul>
         </>

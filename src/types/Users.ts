@@ -5,4 +5,5 @@ export type User = {
   verified?: boolean;
   description?: string;
   posts?: number;
+  followed?: boolean;
 };

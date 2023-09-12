@@ -22,8 +22,8 @@ export const PiupiuRoutes = () => {
       {signedIn ? (
         <Route element={<RequireAuth />}>
           <Route element={<MainLayout />}>
-            <Route path={routes.home} element={<Home />} />
-            <Route path={routes.following} element={<Home />} />
+            <Route path={routes.home} element={<Home pius="main" />} />
+            <Route path={routes.stalking} element={<Home pius="stalking" />} />
             <Route path={routes.singlePiupiu()} element={<SinglePiupiu />} />
             <Route element={<ProfileLayout />}>
               <Route

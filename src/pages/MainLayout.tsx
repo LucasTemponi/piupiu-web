@@ -8,7 +8,11 @@ import { useQuery } from "@tanstack/react-query";
 import { backendRoutes } from "../routes";
 
 export const MainLayout = () => {
-  const { data: newUsers, isLoading } = useQuery({
+  const {
+    data: newUsers,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["latest-users"],
     queryFn: () => axios.get(backendRoutes.latestUsers).then((res) => res.data),
     staleTime: 290000,
@@ -34,7 +38,7 @@ export const MainLayout = () => {
             </Button>
           </div>
         </SideCard>
-        <SideList loading={isLoading} users={newUsers} />
+        <SideList refetch={refetch} loading={isLoading} users={newUsers} />
       </div>
     </>
   );
