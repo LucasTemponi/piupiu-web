@@ -39,7 +39,10 @@ export const SideListUserItem = ({
   }, [user]);
 
   return (
-    <li key={user.handle} className="flex items-center mb-6 last:mb-0 ">
+    <li
+      key={user.handle}
+      className="flex overflow-hidden items-center max-w-full mb-6 last:mb-0 "
+    >
       <ProfilePic userName={user.name} image={user.image_url} />
       <div className="ml-2 overflow-hidden text-ellipsis">
         <Username variant="column" user={user} />
